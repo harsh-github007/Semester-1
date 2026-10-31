@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finals Sketchbook</title>
+<meta name="description" content="Beginner-friendly visual classes for Derivatives, Valuation, Risk Management and Bloomberg finals.">
+<meta name="theme-color" content="#16223a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{--paper:#f5f7fb;--sheet:#fff;--grid:#e3e9f2;--ink:#16223a;--mut:#5a6880;--blue:#2457d6;--pen:#cf3f35;--green:#1d8656;--hl:#ffe680;--hl-ink:#3a2f00;--line:#cfd8e6;
+ --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Atkinson Hyperlegible",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+ padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--paper:#0f1622;--sheet:#151e2d;--grid:#1d2839;--ink:#e7edf6;--mut:#97a5bb;--blue:#7ea7ff;--pen:#ff7b6f;--green:#4fc78d;--hl:#5c4d0f;--hl-ink:#fff0b0;--line:#2a3850;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
+ background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+ padding:32px max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.1}
+h1{font-size:clamp(36px,6vw,60px);font-weight:800;letter-spacing:-.02em}
+.lede{font-size:19px;max-width:60ch;margin:10px 0 0}.lede mark{background:var(--hl);color:var(--hl-ink);padding:0 3px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+a.card{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);background:var(--sheet);border:2px solid var(--ink);border-radius:14px;padding:20px 22px;transition:transform .15s}
+a.card:hover{transform:translateY(-2px)} a.card:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card h2{font-size:28px}.card .cnt{font-family:var(--mono);font-size:13px;color:var(--mut);white-space:nowrap}
+.card p{margin:0;color:var(--mut);font-size:15px}
+.bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green);width:0}
+.prog{font-family:var(--mono);font-size:12px;color:var(--mut)}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+section.box{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+section.box h3{font-size:20px;margin-bottom:8px}
+section.box ul{margin:0;padding-left:18px}section.box li{margin-bottom:6px}
+section.box a{color:var(--blue)}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+@media (max-width:760px){.grid,.row{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header><span class="tag">Fall 2026 finals · 35 visual classes</span><h1>Finals Sketchbook</h1>
+  <p class="lede">Pick a subject. Every class has a <mark>sketch you can watch</mark> step by step, a plain explanation, the formulas, a worked example, a calculator and free videos to go deeper.</p></header>
+ <div class="grid" id="subjects"></div>
+ <div class="row">
+  <section class="box"><h3>Everything in one place</h3><ul><li><a href="all.html">All 35 classes on one page</a></li><li>PDFs to print or read offline: <a href="pdf/Derivatives%20Sketchbook.pdf">Derivatives</a>, <a href="pdf/Valuation%20Sketchbook.pdf">Valuation</a>, <a href="pdf/Risk%20Management%20Sketchbook.pdf">Risk</a>, <a href="pdf/Bloomberg%20Sketchbook.pdf">Bloomberg</a>, <a href="pdf/Finals%20Sketchbook%20-%20All%20Subjects.pdf">All</a></li></ul></section>
+  <section class="box"><h3>Install it like an app</h3><ul><li><b>iPhone:</b> open in Safari → Share → Add to Home Screen.</li><li><b>Android / Chrome:</b> menu → Install app.</li><li>After the first visit, it works offline too.</li></ul></section>
+ </div>
+</div>
+<script>
+const S=[['Derivatives','derivatives.html','derivatives',10,'Forwards, futures, swaps, hedging, option strategies, binomial trees, Black-Scholes.'],
+ ['Valuation','valuation.html','valuation',11,'Present value, loans, bonds, NPV/IRR, simulation, CAPM, CDOs, volatility smiles, real options.'],
+ ['Risk Management','risk-management.html','risk',11,'VaR and ES, duration, immunization, FX, Greeks, credit, CVA, op risk, Basel, stress tests.'],
+ ['Bloomberg','bloomberg.html','bloomberg',5,'Getting set up, economic indicators, currencies, fixed income and equities for the BMC tests.']];
+document.getElementById('subjects').innerHTML=S.map(([n,u,k,c,d])=>{let done=0;try{done=Object.values(JSON.parse(localStorage.getItem('fsb-done-'+k)||'{}')).filter(Boolean).length}catch(e){}
+ return `<a class="card" href="${u}"><div class="top"><h2>${n}</h2><span class="cnt">${c} classes</span></div><p>${d}</p><div class="bar"><i style="width:${done/c*100}%"></i></div><span class="prog">${done} of ${c} done</span></a>`}).join('');
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+</script>
+</body>
+</html>
