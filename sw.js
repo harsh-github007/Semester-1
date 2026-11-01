@@ -1,5 +1,5 @@
 // Versioned app shell. Keep private course files out of shared/offline caches.
-const CACHE='sketchbook-v7';
+const CACHE='sketchbook-v9';
 const CORE=['./','index.html','derivatives.html','valuation.html','risk-management.html','bloomberg.html','all.html','library.html','practice.html','derivatives-practice.html','syllabus.html','assets/base.css','assets/study.css','assets/config.js','assets/common.js','assets/lessons.js','assets/beginner.js','assets/study.js','assets/labs.js','assets/home.js','assets/library.js','assets/practice-data.js','assets/derivatives-practice-data.js','assets/practice.js','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE.map(path=>new Request(path,{cache:'reload'})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('sketchbook-')&&key!==CACHE).map(key=>caches.delete(key)));await self.clients.claim();})()));
