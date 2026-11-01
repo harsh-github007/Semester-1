@@ -1,2 +1,5 @@
 .DS_Store
+private-materials/
+work/
+node_modules/
 .vercel
