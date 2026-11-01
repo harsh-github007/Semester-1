@@ -66,7 +66,7 @@ test('backup validation rejects malformed data and accepts practice answers',()=
  assert.equal(run("validateBackup({'fsb-practice':{'0':{text:'My working',mark:15}}})['fsb-practice'][0].mark"),15);
 });
 test('worker only intercepts its app shell and preserves other applications’ caches',async()=>{
- const handlers={},deleted=[];const c=vm.createContext({URL,Response,fetch:async()=>{throw Error('offline')},self:{location:{origin:'https://example.test'},registration:{scope:'https://example.test/'},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(name,fn)=>handlers[name]=fn},caches:{keys:async()=>['another-app','sketchbook-v1','sketchbook-v7'],delete:async key=>deleted.push(key),open:async()=>({match:async()=>undefined})}});
+ const handlers={},deleted=[];const c=vm.createContext({URL,Response,fetch:async()=>{throw Error('offline')},self:{location:{origin:'https://example.test'},registration:{scope:'https://example.test/'},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(name,fn)=>handlers[name]=fn},caches:{keys:async()=>['another-app','sketchbook-v1','sketchbook-v8'],delete:async key=>deleted.push(key),open:async()=>({match:async()=>undefined})}});
  vm.runInContext(fs.readFileSync('sw.js','utf8'),c);
  await new Promise(resolve=>handlers.activate({waitUntil:p=>p.then(resolve)}));assert.deepEqual(deleted,['sketchbook-v1']);
  let intercepted=false;handlers.fetch({request:{method:'GET',url:'https://example.test/private-materials/book.pdf'},respondWith:()=>intercepted=true});assert.equal(intercepted,false);
@@ -84,4 +84,9 @@ test('Derivatives paper practice has five questions and independently verified c
  const dfs=[.07,.073,.077,.081,.084,.088].map((r,i)=>(1+r)**(-i-1));const rate=(1-dfs[5])/dfs.reduce((a,b)=>a+b,0);
  assert.ok(Math.abs(rate-.086201816758)<1e-10);
  assert.ok(Math.abs(rate*dfs.reduce((a,b)=>a+b,0)+dfs[5]-1)<1e-12);
+});
+test('Bloomberg warm-up quiz has four topics with valid answers and explanations',()=>{
+ const c=vm.createContext({});vm.runInContext(fs.readFileSync('assets/bmc-quiz-data.js','utf8')+';this.Q=BMC_QUIZ',c);const Q=c.Q;
+ assert.equal(Q.length,4);assert.equal(Q.map(t=>t.lesson).join(),'31,32,33,34');
+ for(const t of Q){assert.ok(t.questions.length>=8);for(const [q,o,a,why]of t.questions){assert.ok(q&&why&&o.length>=3&&Number.isInteger(a)&&o[a],q);}}
 });
