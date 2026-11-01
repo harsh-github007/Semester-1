@@ -2,7 +2,7 @@
 
 ## Supplied snapshot
 
-The user supplied `Finals Study Pack - Unzipped/Finals`, prepared October 30, 2026, and identified this as their first NYU term. The local material manifest includes 64 teaching, reading, spreadsheet and planning files. Files were copied locally, not published. The reading shelf is an inventory, not a claim that every page has been exhaustively reviewed.
+The user supplied `Finals Study Pack - Unzipped/Finals`, prepared October 30, 2026, and identified this as their first NYU term. The supplied pack contains 64 teaching, reading, spreadsheet and planning files. With the user’s authorization, the repository includes 40 PDFs and two exam photos; the library manifest lists those 42 published files. Other pack formats remain local. The reading shelf is an inventory, not a claim that every page has been exhaustively reviewed.
 
 The source study plan and Bloomberg requirements note establish the course organization, known missing uploads and certification tracking. Course dates are snapshot facts and must be checked against current course announcements. Exact exam dates and the Valuation exam/project route are not confirmed here.
 
@@ -65,7 +65,7 @@ The snapshot says at least 70% on **each** of four required tests by December 14
 
 ## Supplied Derivatives paper
 
-Two user-supplied photographs show the October 17, 2026 Introduction to Derivatives midterm: five questions, 8 points each, two hours. Originals are retained locally as `FRE6073_Midterm_2026_Page_1.jpeg` and `Page_2.jpeg`, excluded from Git with the rest of the private pack.
+Two user-supplied photographs show the October 17, 2026 Introduction to Derivatives midterm: five questions, 8 points each, two hours. Originals are included as `FRE6073_Midterm_2026_Page_1.jpeg` and `Page_2.jpeg`, published with the user’s authorization.
 
 The five worked preparation questions cover growing discrete dividends, index futures loss/spot recovery, interest-bearing margin calls, coupon-bond forward value and a six-year par swap. Solutions are independently derived; no instructor key was provided. Assumptions are explicit: year-three dividend precedes delivery, constant futures pricing rates, one-day accrual of 1/365 with interest before settlement, dirty bond price and standard single-curve swap valuation. Alternative conventions can change answers. Changed-scenario drills support the syllabus's emphasis on transfer rather than memorized copies.
 

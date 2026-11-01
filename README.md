@@ -35,7 +35,7 @@ Start with **Valuation → Money today vs money later**, or the six math refresh
 
 See `CONTENT_SOURCES.md` for source mapping, known gaps and the update workflow.
 
-The local `private-materials/` folder contains the user-provided study pack and its generated `index.json`. It is excluded from Git and Vercel deployment. Do not publish it to a public repository. New PDFs imported through the UI are stored in IndexedDB on that browser; they do not enter this folder and do not automatically rewrite lessons. Keep original files and export study backups regularly. Browser data is not synced between devices and can be cleared or evicted.
+The `private-materials/` folder retains its original name but now includes 40 user-authorized course PDFs (including books) and two exam photos in Git and deployment. Its `index.json` lists these 42 files. Other local pack formats remain excluded. New PDFs imported through the UI are stored in IndexedDB on that browser; they do not enter this folder and do not automatically rewrite lessons. Keep original files and export study backups regularly. Browser data is not synced between devices and can be cleared or evicted.
 
 The original PDFs in `pdf/` remain as historical printable editions. They do **not** include the new beginner layer, corrected calculator behavior or personal notes.
 
@@ -69,4 +69,4 @@ They verify all lesson IDs, beginner coverage, sketch geometry, calculator defau
 
 ## Deploy the app code
 
-Import the repository into Vercel as a static site (Framework: Other, no build command). `.vercelignore` excludes private materials even for CLI deployment. Public deployments start with an empty local shelf; users can add their own PDFs. No deployment or GitHub push is performed by this local update.
+Import the repository into Vercel as a static site (Framework: Other, no build command). `.vercelignore` includes the authorized PDFs, exam photos and library index while excluding other local pack formats. The library opens with 42 included materials; users can also add browser-local PDFs.

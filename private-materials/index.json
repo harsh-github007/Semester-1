@@ -1,0 +1,296 @@
+[
+  {
+    "name": "FRE5500_NOTES_01_Bloomberg_Signup_and_BMC_Access_Summer_2025.pdf",
+    "path": "private-materials/Bloomberg/01 Instructions and Requirements/FRE5500_NOTES_01_Bloomberg_Signup_and_BMC_Access_Summer_2025.pdf",
+    "subject": "Bloomberg",
+    "kind": "Course material",
+    "size": 851189
+  },
+  {
+    "name": "FRE6073_INFO_01_Syllabus_Fall_2026.pdf",
+    "path": "private-materials/Derivatives/01 Course Information/FRE6073_INFO_01_Syllabus_Fall_2026.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 118653
+  },
+  {
+    "name": "FRE6073_BOOK_01_Options_Futures_and_Other_Derivatives_Hull_8e.pdf",
+    "path": "private-materials/Derivatives/02 Books and Readings/FRE6073_BOOK_01_Options_Futures_and_Other_Derivatives_Hull_8e.pdf",
+    "subject": "Derivatives",
+    "kind": "Book",
+    "size": 38105472
+  },
+  {
+    "name": "FRE6073_LECTURE_01_Binomial_trees.pdf",
+    "path": "private-materials/Derivatives/03 Lectures/FRE6073_LECTURE_01_Binomial_trees.pdf",
+    "subject": "Derivatives",
+    "kind": "Lecture",
+    "size": 168893
+  },
+  {
+    "name": "FRE6073_LECTURE_02_Lecture_01_Introduction_to_Derivatives.pdf",
+    "path": "private-materials/Derivatives/03 Lectures/FRE6073_LECTURE_02_Lecture_01_Introduction_to_Derivatives.pdf",
+    "subject": "Derivatives",
+    "kind": "Lecture",
+    "size": 108588
+  },
+  {
+    "name": "FRE6073_ASSIGNMENT_01_Assignment_1.pdf",
+    "path": "private-materials/Derivatives/04 Assignments and Solutions/FRE6073_ASSIGNMENT_01_Assignment_1.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 215050
+  },
+  {
+    "name": "FRE6073_ASSIGNMENT_02_Assignment_2.pdf",
+    "path": "private-materials/Derivatives/04 Assignments and Solutions/FRE6073_ASSIGNMENT_02_Assignment_2.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 223249
+  },
+  {
+    "name": "FRE6073_ASSIGNMENT_05_Assignment_03.pdf",
+    "path": "private-materials/Derivatives/04 Assignments and Solutions/FRE6073_ASSIGNMENT_05_Assignment_03.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 216261
+  },
+  {
+    "name": "FRE6073_SOLUTION_03_Assignment_01_Solutions.pdf",
+    "path": "private-materials/Derivatives/04 Assignments and Solutions/FRE6073_SOLUTION_03_Assignment_01_Solutions.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 296440
+  },
+  {
+    "name": "FRE6073_SOLUTION_04_Assignment_02_Solutions.pdf",
+    "path": "private-materials/Derivatives/04 Assignments and Solutions/FRE6073_SOLUTION_04_Assignment_02_Solutions.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 293922
+  },
+  {
+    "name": "FRE6073_REVIEW_01_FRE_6073_Derivatives_Midterm_Study_Guide.pdf",
+    "path": "private-materials/Derivatives/07 Earlier Midterm Materials/FRE6073_REVIEW_01_FRE_6073_Derivatives_Midterm_Study_Guide.pdf",
+    "subject": "Derivatives",
+    "kind": "Course material",
+    "size": 291395
+  },
+  {
+    "name": "FRE6103_INFO_01_Syllabus_Original.pdf",
+    "path": "private-materials/Valuation/01 Course Information/FRE6103_INFO_01_Syllabus_Original.pdf",
+    "subject": "Valuation",
+    "kind": "Course material",
+    "size": 484357
+  },
+  {
+    "name": "FRE6103_INFO_02_Syllabus_Revised_Announcement.pdf",
+    "path": "private-materials/Valuation/01 Course Information/FRE6103_INFO_02_Syllabus_Revised_Announcement.pdf",
+    "subject": "Valuation",
+    "kind": "Course material",
+    "size": 486072
+  },
+  {
+    "name": "FRE6103_INFO_03_Syllabus_Revised_Content.pdf",
+    "path": "private-materials/Valuation/01 Course Information/FRE6103_INFO_03_Syllabus_Revised_Content.pdf",
+    "subject": "Valuation",
+    "kind": "Course material",
+    "size": 486072
+  },
+  {
+    "name": "FRE6103_BOOK_01_Chapter_5_6_Valuation_Principles.pdf",
+    "path": "private-materials/Valuation/02 Books and Readings/FRE6103_BOOK_01_Chapter_5_6_Valuation_Principles.pdf",
+    "subject": "Valuation",
+    "kind": "Book",
+    "size": 1599791
+  },
+  {
+    "name": "FRE6103_BOOK_02_Corporate_Finance_Ivo_Welch_4e_Early_Preview_2016.pdf",
+    "path": "private-materials/Valuation/02 Books and Readings/FRE6103_BOOK_02_Corporate_Finance_Ivo_Welch_4e_Early_Preview_2016.pdf",
+    "subject": "Valuation",
+    "kind": "Book",
+    "size": 58658913
+  },
+  {
+    "name": "FRE6103_BOOK_03_Valuation_Principles_Ch_1_2.pdf",
+    "path": "private-materials/Valuation/02 Books and Readings/FRE6103_BOOK_03_Valuation_Principles_Ch_1_2.pdf",
+    "subject": "Valuation",
+    "kind": "Book",
+    "size": 1550150
+  },
+  {
+    "name": "FRE6103_BOOK_04_Valuation_Principles_Part_2_Revision_3_0.pdf",
+    "path": "private-materials/Valuation/02 Books and Readings/FRE6103_BOOK_04_Valuation_Principles_Part_2_Revision_3_0.pdf",
+    "subject": "Valuation",
+    "kind": "Book",
+    "size": 1315175
+  },
+  {
+    "name": "FRE6103_BOOK_05_Valuation_Principles_Part_2_Revision_3_01.pdf",
+    "path": "private-materials/Valuation/02 Books and Readings/FRE6103_BOOK_05_Valuation_Principles_Part_2_Revision_3_01.pdf",
+    "subject": "Valuation",
+    "kind": "Book",
+    "size": 1315175
+  },
+  {
+    "name": "FRE6103_BOOK_06_VFE_6103_Chapters_3_4.pdf",
+    "path": "private-materials/Valuation/02 Books and Readings/FRE6103_BOOK_06_VFE_6103_Chapters_3_4.pdf",
+    "subject": "Valuation",
+    "kind": "Book",
+    "size": 2065154
+  },
+  {
+    "name": "FRE6103_LECTURE_01_Lecture_1_Present_Value_Fails.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_01_Lecture_1_Present_Value_Fails.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 1842011
+  },
+  {
+    "name": "FRE6103_LECTURE_02_Lecture_1B_MBE_Brief.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_02_Lecture_1B_MBE_Brief.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 2205155
+  },
+  {
+    "name": "FRE6103_LECTURE_03_Lecture_2A_Loans_with_exponential_default_risk.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_03_Lecture_2A_Loans_with_exponential_default_risk.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 614220
+  },
+  {
+    "name": "FRE6103_LECTURE_04_Lecture_2B_Bonds_and_rates.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_04_Lecture_2B_Bonds_and_rates.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 1793604
+  },
+  {
+    "name": "FRE6103_LECTURE_05_Lecture_4_Simulation.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_05_Lecture_4_Simulation.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 857993
+  },
+  {
+    "name": "FRE6103_LECTURE_06_Lecture_5_Stochastic_Processes.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_06_Lecture_5_Stochastic_Processes.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 812297
+  },
+  {
+    "name": "FRE6103_LECTURE_07_Lecture_6_MPT_and_the_CAPM.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_07_Lecture_6_MPT_and_the_CAPM.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 1474288
+  },
+  {
+    "name": "FRE6103_LECTURE_08_Lecture_7_ETFs_and_Futures_MARKUP.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_08_Lecture_7_ETFs_and_Futures_MARKUP.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 1620916
+  },
+  {
+    "name": "FRE6103_LECTURE_09_Lecture_9_BSM_and_Implied_Densities.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_09_Lecture_9_BSM_and_Implied_Densities.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 1959445
+  },
+  {
+    "name": "FRE6103_LECTURE_10_Lecture_03_Corporate_Bonds_and_CDOs.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_10_Lecture_03_Corporate_Bonds_and_CDOs.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 936036
+  },
+  {
+    "name": "FRE6103_LECTURE_11_Options_in_a_valuation_context.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_11_Options_in_a_valuation_context.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 731653
+  },
+  {
+    "name": "FRE6103_LECTURE_12_Simpler_Option_Pricing_Update_2026.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_12_Simpler_Option_Pricing_Update_2026.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 1176749
+  },
+  {
+    "name": "FRE6103_LECTURE_13_VL10_Multiperiod_cash_flows.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_13_VL10_Multiperiod_cash_flows.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 480813
+  },
+  {
+    "name": "FRE6103_LECTURE_14_VL14_Real_Options_in_Energy.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_14_VL14_Real_Options_in_Energy.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 2245194
+  },
+  {
+    "name": "FRE6103_LECTURE_15_Volatility_Surface.pdf",
+    "path": "private-materials/Valuation/03 Lectures/FRE6103_LECTURE_15_Volatility_Surface.pdf",
+    "subject": "Valuation",
+    "kind": "Lecture",
+    "size": 2711496
+  },
+  {
+    "name": "FRE6103_EXAM_01_Midterm_2025.pdf",
+    "path": "private-materials/Valuation/05 Exam Preparation/FRE6103_EXAM_01_Midterm_2025.pdf",
+    "subject": "Valuation",
+    "kind": "Exam",
+    "size": 259297
+  },
+  {
+    "name": "FRE6103_EXAM_02_Midterm_and_Final_Formula_Sheet_2023.pdf",
+    "path": "private-materials/Valuation/05 Exam Preparation/FRE6103_EXAM_02_Midterm_and_Final_Formula_Sheet_2023.pdf",
+    "subject": "Valuation",
+    "kind": "Exam",
+    "size": 4220826
+  },
+  {
+    "name": "FRE6103_REVIEW_01_FRE_6103_Valuation_Midterm_Study_Guide.pdf",
+    "path": "private-materials/Valuation/07 Earlier Midterm Materials/FRE6103_REVIEW_01_FRE_6103_Valuation_Midterm_Study_Guide.pdf",
+    "subject": "Valuation",
+    "kind": "Course material",
+    "size": 412815
+  },
+  {
+    "name": "FRE6103_REVIEW_05_Midterm_2025.pdf",
+    "path": "private-materials/Valuation/07 Earlier Midterm Materials/FRE6103_REVIEW_05_Midterm_2025.pdf",
+    "subject": "Valuation",
+    "kind": "Course material",
+    "size": 188693
+  },
+  {
+    "name": "FRE6103_REVIEW_06_PowerPoint_Presentation_midterm_and_final_cheat_sheet_6103_fall_2023.pdf",
+    "path": "private-materials/Valuation/07 Earlier Midterm Materials/FRE6103_REVIEW_06_PowerPoint_Presentation_midterm_and_final_cheat_sheet_6103_fall_2023.pdf",
+    "subject": "Valuation",
+    "kind": "Course material",
+    "size": 295363
+  },
+  {
+    "name": "FRE6073_Midterm_2026_Page_1.jpeg",
+    "path": "private-materials/Derivatives/05 Exam Preparation/FRE6073_Midterm_2026_Page_1.jpeg",
+    "subject": "Derivatives",
+    "kind": "Exam photograph",
+    "size": 81439
+  },
+  {
+    "name": "FRE6073_Midterm_2026_Page_2.jpeg",
+    "path": "private-materials/Derivatives/05 Exam Preparation/FRE6073_Midterm_2026_Page_2.jpeg",
+    "subject": "Derivatives",
+    "kind": "Exam photograph",
+    "size": 40387
+  }
+]
