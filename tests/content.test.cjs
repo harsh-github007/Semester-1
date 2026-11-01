@@ -85,3 +85,8 @@ test('Derivatives paper practice has five questions and independently verified c
  assert.ok(Math.abs(rate-.086201816758)<1e-10);
  assert.ok(Math.abs(rate*dfs.reduce((a,b)=>a+b,0)+dfs[5]-1)<1e-12);
 });
+test('Bloomberg warm-up quiz has four topics with valid answers and explanations',()=>{
+ const c=vm.createContext({});vm.runInContext(fs.readFileSync('assets/bmc-quiz-data.js','utf8')+';this.Q=BMC_QUIZ',c);const Q=c.Q;
+ assert.equal(Q.length,4);assert.equal(Q.map(t=>t.lesson).join(),'31,32,33,34');
+ for(const t of Q){assert.ok(t.questions.length>=8);for(const [q,o,a,why]of t.questions){assert.ok(q&&why&&o.length>=3&&Number.isInteger(a)&&o[a],q);}}
+});

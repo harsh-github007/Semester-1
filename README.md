@@ -16,7 +16,8 @@ Start with **Valuation → Money today vs money later**, or the six math refresh
 
 ## What is included
 
-- Four hands-on concept experiments: present value/growth, option exercise/payoff/profit, forward replication, and a daily futures margin ledger with long/short positions and explicit margin-call deposits. They appear before the sketches in seven relevant lesson placements; they do not yet cover every topic.
+- Seven hands-on concept experiments: present value/growth, option exercise/payoff/profit, forward replication, a daily futures margin ledger, project NPV/IRR, bond price vs yield, and CAPM required return. They appear before the sketches in ten lesson placements; they do not yet cover every topic.
+- A Bloomberg warm-up quiz (`bloomberg-practice.html`): 32 original multiple-choice questions across Economic Indicators, Currencies, Fixed Income and Equities, with instant explanations and a 70% per-topic readiness line. It does not count toward certification.
 
 
 - 35 unique visual lessons, with beginner introductions, prerequisite links, explained multiple-choice checks, worked examples, and original calculators.
