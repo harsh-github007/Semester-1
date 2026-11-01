@@ -14,18 +14,21 @@ function renderNav(cur){let html=`<div class="wk"><button class="cl" data-w="1" 
   const n=Object.values(done).filter(Boolean).length;document.getElementById('progtxt').textContent=`${n} of ${CLASSES.length} done`;document.getElementById('progbar').style.width=(n/CLASSES.length*100)+'%'}
 nav.addEventListener('click',e=>{const b=e.target.closest('button.cl');if(!b)return;if(b.dataset.w){location.hash='watch';scrollTo({top:0})}else go(+b.dataset.i)});
 pick.addEventListener('change',()=>{+pick.value<0?location.hash='watch':go(+pick.value)});
-let timer=null,step=0,cur=0;
+let timer=null,step=0,cur=0,playing=false;
 function go(i){location.hash='class-'+(i+1)}
 function show(i){cur=i;step=0;stop();const c=CLASSES[i];renderNav(i);Store.write('fsb-last',c.id);document.title=c.title+' · Finals Sketchbook';
  sheet.innerHTML=`<div class="head"><span class="num">Class ${i+1} of ${CLASSES.length}</span><span class="tag">${c.subj}</span>${c.tag!==c.subj?`<span class="tag">also ${c.tag.replace(c.subj,'').replace(/^ \+ | \+ $/,'')}</span>`:''}</div>
  <h2 class="title">${c.title}</h2><p class="oneline">${c.one}</p>${beginnerHTML(c)}${labHTML(c.id)}
- <div class="player"><div class="stage"><svg id="svg" viewBox="${W}" role="img" aria-label="Step-by-step sketch for ${c.title}"></svg></div>
+ <div class="player" id="player" tabindex="-1" aria-label="Sketch video for ${c.title}. Space plays or pauses, arrow keys move between steps."><div class="stage"><svg id="svg" viewBox="${W}" role="img" aria-label="Step-by-step sketch for ${c.title}"></svg>
+  <div class="endcard" id="endcard" hidden><p class="end-t">✓ Sketch finished</p><p class="small">Now try the worked example below on paper, then check the solution.</p><div class="end-b"><button class="btn" id="replay">↺ Watch again</button><button class="btn primary" id="toex">Try the example ↓</button></div></div></div>
+  <div class="tl" id="dots" role="group" aria-label="Steps"></div>
   <div class="cap" aria-live="polite"><span class="k" id="kk"></span><span id="cap"></span></div>
-  <div class="ctrl"><button class="btn" id="prev">◀ Back</button><button class="btn primary" id="play">▶ Play</button><button class="btn" id="next">Next ▶</button><div class="dots" id="dots"></div></div></div>
+  <div class="ctrl"><button class="btn" id="prev">◀ Back</button><button class="btn primary" id="play">▶ Play</button><button class="btn" id="next">Next ▶</button>
+   <span class="ctrl-r"><button class="btn" id="voice" aria-pressed="false" title="Read each step aloud (V)">🔈 Voice off</button><label class="speed">Speed <select id="speed">${[0.75,1,1.25,1.5].map(v=>`<option value="${v}">${v}×</option>`).join('')}</select></label><button class="btn" id="full" aria-pressed="false" title="Full screen (F)">⛶ Big screen</button><span class="time" id="time"></span></span></div></div>
  <div class="grid2">
   <section class="blk plain"><h3>What it means <small>plain words</small></h3>${c.plain}</section>
   <section class="blk"><h3>Connect it to the math</h3><p class="small">Read the symbols below as names for quantities. Use the worked example to see where each number goes.</p><div class="formula">${c.formula}</div><p class="legend">${c.legend}</p></section>
-  <section class="blk wide"><h3>Worked example <small>do it on paper first</small></h3><p style="margin:0 0 12px;max-width:70ch"><b>Question.</b> ${c.ex.q}</p><details class="solution"><summary>Show the solution, one step at a time</summary><ol class="steps">${c.ex.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol><div class="answer">Answer: ${c.ex.a}</div></details></section>
+  <section class="blk wide" id="ex-${i}" tabindex="-1"><h3>Worked example <small>do it on paper first</small></h3><p style="margin:0 0 12px;max-width:70ch"><b>Question.</b> ${c.ex.q}</p><details class="solution"><summary>Show the solution, one step at a time</summary><ol class="steps">${c.ex.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol><div class="answer">Answer: ${c.ex.a}</div></details></section>
   ${c.calc?`<section class="blk wide"><h3>Try it yourself <small>change a number, watch the answer</small></h3><div class="calc">${c.calc.inputs.map(([k,l,v])=>`<label for="in-${k}">${l}<input id="in-${k}" data-k="${k}" type="number" step="any" value="${v}"></label>`).join('')}</div><div class="out" id="out"></div></section>`:''}
   <section class="blk plain traps"><h3>Common traps <small>where marks are lost</small></h3><ul>${c.traps.map(t=>`<li>${t}</li>`).join('')}</ul></section>
   <section class="blk files"><h3>Where to read more <small>your folder</small></h3><ul style="margin:0;padding-left:18px">${c.files.map(f=>`<li><code>${f}</code></li>`).join('')}</ul>${c.tag.includes('Risk')?'<p class="note">Your Risk lecture decks (RMN1–RMNA) are not in the folder yet. This class follows the Risk syllabus topics; check it against the decks once you get them.</p>':''}</section>
@@ -33,21 +36,62 @@ function show(i){cur=i;step=0;stop();const c=CLASSES[i];renderNav(i);Store.write
  ${practiceHTML(c)}<section class="reflection"><h3>Explain it in your own words</h3><label for="reflection">What does this mean? What confused you? Write one mistake to avoid next time.</label><textarea id="reflection" rows="3" maxlength="10000" placeholder="For example: a call gives me a choice to buy, not an obligation."></textarea><span id="note-status" class="small" role="status"></span></section><div class="foot"><label class="donebox" for="done"><input type="checkbox" id="done" ${done[i]?'checked':''}> I can explain this and solve the example without looking</label>
   <div style="display:flex;gap:8px">${i>0?`<button class="btn" id="pc">◀ Class ${i}</button>`:''}${i<CLASSES.length-1?`<button class="btn primary" id="nc">Class ${i+2} ▶</button>`:''}</div></div>`;
  document.getElementById('prev').onclick=()=>{stop();draw(step-1)};document.getElementById('next').onclick=()=>{stop();draw(step+1)};
- document.getElementById('play').onclick=()=>timer?stop():play();
+ bindPlayer(i);
  document.getElementById('done').onchange=e=>{done[i]=e.target.checked;save();renderNav(i)};
  const pc=document.getElementById('pc'),nc=document.getElementById('nc');if(pc)pc.onclick=()=>{go(i-1);scrollTo({top:0})};if(nc)nc.onclick=()=>{go(i+1);scrollTo({top:0})};
  if(c.calc){const run=()=>{const inputs=[...sheet.querySelectorAll('[data-k]')];const v=Object.fromEntries(inputs.map(x=>[x.dataset.k,Number(x.value)]));let h;if(inputs.some(x=>x.value.trim()===''||!Number.isFinite(v[x.dataset.k])))h='Enter a number in every field to calculate.';else{try{h=c.calc.run(v);if(/NaN|Infinity|∞/.test(h))h='These inputs do not give a finite answer. Check for zero divisors, negative square roots and the model assumptions.';}catch(e){h=escapeHTML(e.message||'Check the model assumptions and try again.');}}document.getElementById('out').innerHTML=h};sheet.querySelectorAll('[data-k]').forEach(x=>x.addEventListener('input',run));run()}
  bindPractice(c);bindLab();c._items=c.sketch.draw();draw(0)}
-function draw(k){const c=CLASSES[cur],n=c.sketch.caps.length;k=Math.max(0,Math.min(n-1,k));step=k;
- const html=c._items.filter(([s])=>Array.isArray(s)?k>=s[0]&&k<=s[1]:s<=k).map(([s,m])=>{const isNew=Array.isArray(s)?k===s[0]||s[0]===s[1]:s===k;return `<g class="${isNew?'pop':''}">${isNew?m.replace(/class="([^"]*) draw"/g,'class="$1 draw pop"'):m.replace(/ draw"/g,'"')}</g>`}).join('');
- document.getElementById('svg').innerHTML=html;document.getElementById('cap').textContent=c.sketch.caps[k];document.getElementById('kk').textContent=`Step ${k+1}/${n}`;
- document.getElementById('dots').innerHTML=c.sketch.caps.map((_,j)=>`<button class="${j<=k?'on':''}" aria-label="Go to step ${j+1}" data-j="${j}"></button>`).join('');
- document.querySelectorAll('#dots button').forEach(b=>b.onclick=()=>{stop();draw(+b.dataset.j)});
- document.getElementById('prev').disabled=k===0;document.getElementById('next').disabled=k===n-1}
-function play(){const c=CLASSES[cur];if(step>=c.sketch.caps.length-1)draw(0);document.getElementById('play').textContent='❚❚ Pause';
- timer=setInterval(()=>{if(step>=CLASSES[cur].sketch.caps.length-1){stop();return}draw(step+1)},4200)}
-function stop(){clearInterval(timer);timer=null;const b=document.getElementById('play');if(b)b.textContent='▶ Play'}
-function showWatch(){cur=-1;stop();renderNav(-1);
+/* ---------- sketch video player: timeline, voice, speed, big screen ---------- */
+const SPEEDS=[0.75,1,1.25,1.5];
+const PREF={voice:Store.read('fsb-voice',false)===true,speed:SPEEDS.includes(Store.read('fsb-speed',1))?Store.read('fsb-speed',1):1};
+const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined';
+let safety=null,raf=0,tok=0,stepStart=0,stepDur=1;
+const capsOf=()=>CLASSES[cur].sketch.caps;
+const stepMs=t=>Math.max(3800,t.split(/\s+/).length*400+1200)/PREF.speed;
+const fmtT=ms=>{const s=Math.round(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const $=id=>document.getElementById(id);
+// Turn caption symbols into words a speech voice can read.
+function spoken(t){return t.replace(/max\(/g,'the larger of (').replace(/e\^\(?([^ )]+)\)?/g,'e to the power $1').replace(/\$(\d[\d,]*(?:\.\d+)?)/g,'$1 dollars').replace(/€(\d[\d,]*(?:\.\d+)?)/g,'$1 euros').replace(/ = /g,' equals ').replace(/\)\//g,') divided by ')
+ .replace(/÷/g,' divided by ').replace(/×|·/g,' times ').replace(/³/g,' cubed').replace(/−/g,' minus ').replace(/≈/g,' about ').replace(/→/g,' to ')
+ .replace(/σ/g,' sigma ').replace(/ρ/g,' rho ').replace(/τ/g,' tau ').replace(/λ/g,' lambda ').replace(/β/g,' beta ').replace(/\bln\(/g,'natural log of (').replace(/\s+/g,' ')}
+function hush(){if(canSpeak)speechSynthesis.cancel()}
+function say(text,done){if(!(PREF.voice&&canSpeak)){return false}hush();const my=++tok,u=new SpeechSynthesisUtterance(spoken(text));u.rate=Math.min(1.6,PREF.speed*0.95);u.lang='en-US';
+ const end=()=>{if(my===tok&&done){const d=done;done=null;d()}};u.onend=end;u.onerror=end;try{speechSynthesis.speak(u)}catch{return false}return end}
+function draw(k){const c=CLASSES[cur],caps=c.sketch.caps,n=caps.length;k=Math.max(0,Math.min(n-1,k));step=k;
+ const html=c._items.filter(([s])=>Array.isArray(s)?k>=s[0]&&k<=s[1]:s<=k).map(([s,m])=>{const isNew=Array.isArray(s)?k===s[0]||s[0]===s[1]:s===k;return `<g class="${isNew?'pop fresh':''}">${isNew?m.replace(/class="([^"]*) draw"/g,'class="$1 draw pop"'):m.replace(/ draw"/g,'"')}</g>`}).join('');
+ $('svg').innerHTML=html;const cap=$('cap');cap.textContent=caps[k];cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');$('kk').textContent=`Step ${k+1}/${n}`;
+ $('dots').innerHTML=caps.map((t,j)=>`<button class="seg${j<k?' done':''}${j===k?' now':''}" data-j="${j}" aria-label="Go to step ${j+1}" title="Step ${j+1}: ${escapeHTML(t)}"${j===k?' aria-current="step"':''}><i></i></button>`).join('');
+ $('dots').querySelectorAll('button').forEach(b=>b.onclick=()=>manual(+b.dataset.j));
+ $('prev').disabled=k===0;$('next').disabled=k===n-1;$('endcard').hidden=true;showTime(0)}
+function showTime(part){const caps=capsOf(),total=caps.reduce((s,t)=>s+stepMs(t),0),before=caps.slice(0,step).reduce((s,t)=>s+stepMs(t),0);
+ $('time').textContent=`${fmtT(before+part)} / ${fmtT(total)}`}
+function tick(){const el=document.querySelector('#dots .now i');if(!el||!playing)return;const t=performance.now()-stepStart,p=Math.min(PREF.voice&&canSpeak?.97:1,t/stepDur);
+ el.style.width=(p*100)+'%';showTime(Math.min(t,stepDur));raf=requestAnimationFrame(tick)}
+function clearTimers(){clearTimeout(timer);clearTimeout(safety);cancelAnimationFrame(raf);timer=safety=null;tok++}
+function runStep(){clearTimers();const caps=capsOf(),n=caps.length;stepDur=stepMs(caps[step]);stepStart=performance.now();
+ $('player').classList.add('playing');const bar=document.querySelector('#dots .now');if(bar)bar.classList.add('run');tick();
+ const next=()=>{if(!playing)return;if(step>=n-1){finish();return}draw(step+1);runStep()};
+ const end=say(caps[step],()=>{clearTimeout(safety);timer=setTimeout(next,600/PREF.speed)});
+ if(end)safety=setTimeout(end,stepDur*2.5);else timer=setTimeout(next,stepDur)}
+function play(){if(step>=capsOf().length-1)draw(0);playing=true;$('play').textContent='❚❚ Pause';$('play').setAttribute('aria-label','Pause');runStep()}
+function stop(){playing=false;clearTimers();hush();const b=$('play');if(b){b.textContent='▶ Play';b.removeAttribute('aria-label');$('player').classList.remove('playing');document.querySelector('#dots .now')?.classList.remove('run');const i=document.querySelector('#dots .now i');if(i)i.style.width='';showTime(0)}}
+function finish(){stop();$('endcard').hidden=false;$('dots').querySelectorAll('.seg').forEach(b=>b.classList.add('done'));showTime(capsOf().reduce((s,t)=>s+stepMs(t),0)-capsOf().slice(0,step).reduce((s,t)=>s+stepMs(t),0))}
+function manual(k){stop();draw(k);say(capsOf()[step])}
+function setBig(on){const p=$('player');if(!p)return;p.classList.toggle('theater',on);document.body.classList.toggle('no-scroll',on);$('full').setAttribute('aria-pressed',on);$('full').textContent=on?'✕ Exit big screen':'⛶ Big screen';if(on)p.focus({preventScroll:true})}
+function bindPlayer(i){const p=$('player');
+ const setVoice=()=>{const b=$('voice');b.setAttribute('aria-pressed',PREF.voice);b.textContent=PREF.voice?'🔊 Voice on':'🔈 Voice off';b.hidden=!canSpeak};setVoice();
+ $('voice').onclick=()=>{PREF.voice=!PREF.voice;Store.write('fsb-voice',PREF.voice);setVoice();if(playing)runStep();else if(PREF.voice)say(capsOf()[step]);else hush()};
+ const sp=$('speed');sp.value=String(PREF.speed);sp.onchange=()=>{PREF.speed=+sp.value;Store.write('fsb-speed',PREF.speed);if(playing)runStep();else showTime(0)};
+ $('play').onclick=()=>playing?stop():play();$('prev').onclick=()=>manual(step-1);$('next').onclick=()=>manual(step+1);
+ $('replay').onclick=()=>{draw(0);play()};$('toex').onclick=()=>{setBig(false);const ex=$('ex-'+i);ex.scrollIntoView({behavior:'smooth',block:'start'});ex.focus({preventScroll:true})};
+ $('full').onclick=()=>setBig(!p.classList.contains('theater'));
+ p.querySelector('.stage').onclick=e=>{if(!e.target.closest('.endcard'))playing?stop():play()};
+ p.onkeydown=e=>{const tag=e.target.tagName;if(e.altKey||e.ctrlKey||e.metaKey||tag==='SELECT')return;
+  if((e.key===' '||e.key==='k')&&tag!=='BUTTON'){e.preventDefault();playing?stop():play()}
+  else if(e.key==='ArrowRight'){e.preventDefault();manual(step+1)}else if(e.key==='ArrowLeft'){e.preventDefault();manual(step-1)}
+  else if(e.key==='f'){setBig(!p.classList.contains('theater'))}else if(e.key==='v'){$('voice').click()}else if(e.key==='Escape'&&p.classList.contains('theater')){setBig(false)}};
+ setBig(false)}
+function showWatch(){cur=-1;stop();document.body.classList.remove('no-scroll');renderNav(-1);
  sheet.innerHTML=`<div class="head"><span class="num">Free videos and courses</span></div><h2 class="title">Watch and learn online</h2>
  <p class="oneline">Use these <mark>alongside</mark> the classes here: do a class, then watch the matching video if anything is still unclear. These are supplementary resources from the original study app. Availability, pricing and audit access can change; check the provider before enrolling.</p>
  ${Object.entries(RES).map(([k,list])=>`${ONLY?'':`<h3 style="font-size:22px;margin:22px 0 10px">${k}</h3>`}<div class="grid2" style="margin-top:${ONLY?'10px':'0'}">${list.map(([n,u,w,d])=>`<section class="blk"><h3 style="display:block">${n}</h3><p class="legend" style="margin:0 0 8px">${w}</p><p style="margin:0 0 10px">${d}</p><a class="btn" style="display:inline-block;text-decoration:none" href="${u}">Open ↗</a></section>`).join('')}</div>`).join('')}

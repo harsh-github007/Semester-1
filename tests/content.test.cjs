@@ -66,7 +66,7 @@ test('backup validation rejects malformed data and accepts practice answers',()=
  assert.equal(run("validateBackup({'fsb-practice':{'0':{text:'My working',mark:15}}})['fsb-practice'][0].mark"),15);
 });
 test('worker only intercepts its app shell and preserves other applications’ caches',async()=>{
- const handlers={},deleted=[];const c=vm.createContext({URL,Response,fetch:async()=>{throw Error('offline')},self:{location:{origin:'https://example.test'},registration:{scope:'https://example.test/'},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(name,fn)=>handlers[name]=fn},caches:{keys:async()=>['another-app','sketchbook-v1','sketchbook-v8'],delete:async key=>deleted.push(key),open:async()=>({match:async()=>undefined})}});
+ const handlers={},deleted=[];const c=vm.createContext({URL,Response,fetch:async()=>{throw Error('offline')},self:{location:{origin:'https://example.test'},registration:{scope:'https://example.test/'},clients:{claim:async()=>{}},skipWaiting:async()=>{},addEventListener:(name,fn)=>handlers[name]=fn},caches:{keys:async()=>['another-app','sketchbook-v1',fs.readFileSync('sw.js','utf8').match(/CACHE='([^']+)'/)[1]],delete:async key=>deleted.push(key),open:async()=>({match:async()=>undefined})}});
  vm.runInContext(fs.readFileSync('sw.js','utf8'),c);
  await new Promise(resolve=>handlers.activate({waitUntil:p=>p.then(resolve)}));assert.deepEqual(deleted,['sketchbook-v1']);
  let intercepted=false;handlers.fetch({request:{method:'GET',url:'https://example.test/private-materials/book.pdf'},respondWith:()=>intercepted=true});assert.equal(intercepted,false);
