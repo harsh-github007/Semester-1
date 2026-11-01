@@ -1,8 +1,9 @@
-private-materials/**
-!private-materials/**/
-!private-materials/**/*.pdf
-!private-materials/**/*.jpeg
-!private-materials/index.json
 work/
 tests/
+scripts/
 .git/
+private-materials/**/*.md
+private-materials/**/*.txt
+private-materials/**/*.docx
+private-materials/**/*.pptx
+private-materials/**/*.xlsx

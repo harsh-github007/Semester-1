@@ -15,10 +15,13 @@ function paint(){
   });
   const pct=Math.round(100*right/t.questions.length);
   if(answered===t.questions.length&&pct>=70)ready++;
-  document.getElementById(`score-${ti}`).textContent=answered===0?'Not started.':answered<t.questions.length?`${right} of ${answered} answered so far are correct.`:`Score: ${right} / ${t.questions.length} (${pct}%). ${pct>=70?'You are above the 70% line. Now take the real Bloomberg test for this topic.':'Below 70%. Read the lesson again, then retry.'}`;
+  document.getElementById(`score-${ti}`).textContent=answered===0?'Not started.':answered<t.questions.length?`${right} of ${answered} answered so far are correct.`:`Score: ${right} / ${t.questions.length} (${pct}%). ${pct>=70?'Practice target reached. Review the official BMC module; this score does not predict certification readiness.':'Below 70%. Read the lesson again, then retry.'}`;
  });
  document.getElementById('quiz-total').textContent=`${ready} of ${BMC_QUIZ.length} topics practised at 70% or more.`;
 }
 quizRoot.addEventListener('change',e=>{const input=e.target.closest('input[type=radio]');if(!input)return;const key=input.closest('[data-key]').dataset.key;chosen=Store.object(QUIZ_KEY);chosen[key]=Number(input.value);Store.write(QUIZ_KEY,chosen);paint();});
 quizRoot.addEventListener('click',e=>{const btn=e.target.closest('[data-reset]');if(!btn)return;const ti=btn.dataset.reset;chosen=Store.object(QUIZ_KEY);Object.keys(chosen).filter(k=>k.startsWith(ti+'-')).forEach(k=>delete chosen[k]);Store.write(QUIZ_KEY,chosen);paint();document.getElementById('topic-'+ti).scrollIntoView({behavior:'smooth'});});
 paint();
+
+const casesRoot=document.getElementById('bmc-cases');
+if(casesRoot)casesRoot.innerHTML=BMC_CASES.map(c=>`<section class="sheet" style="margin:24px 0;padding:24px"><h3>${escapeHTML(c.title)}</h3><p>${escapeHTML(c.story)}</p><ol>${c.questions.map(q=>`<li>${escapeHTML(q)}</li>`).join('')}</ol><details><summary>Show the explanation</summary><ol>${c.steps.map(s=>`<li>${escapeHTML(s)}</li>`).join('')}</ol></details></section>`).join('');

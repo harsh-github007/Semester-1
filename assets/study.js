@@ -91,7 +91,7 @@ function bindPlayer(i){const p=$('player');
   else if(e.key==='ArrowRight'){e.preventDefault();manual(step+1)}else if(e.key==='ArrowLeft'){e.preventDefault();manual(step-1)}
   else if(e.key==='f'){setBig(!p.classList.contains('theater'))}else if(e.key==='v'){$('voice').click()}else if(e.key==='Escape'&&p.classList.contains('theater')){setBig(false)}};
  setBig(false)}
-function showWatch(){cur=-1;stop();document.body.classList.remove('no-scroll');renderNav(-1);
+function showWatch(){stop();cur=-1;document.body.classList.remove('no-scroll');renderNav(-1);
  sheet.innerHTML=`<div class="head"><span class="num">Free videos and courses</span></div><h2 class="title">Watch and learn online</h2>
  <p class="oneline">Use these <mark>alongside</mark> the classes here: do a class, then watch the matching video if anything is still unclear. These are supplementary resources from the original study app. Availability, pricing and audit access can change; check the provider before enrolling.</p>
  ${Object.entries(RES).map(([k,list])=>`${ONLY?'':`<h3 style="font-size:22px;margin:22px 0 10px">${k}</h3>`}<div class="grid2" style="margin-top:${ONLY?'10px':'0'}">${list.map(([n,u,w,d])=>`<section class="blk"><h3 style="display:block">${n}</h3><p class="legend" style="margin:0 0 8px">${w}</p><p style="margin:0 0 10px">${d}</p><a class="btn" style="display:inline-block;text-decoration:none" href="${u}">Open ↗</a></section>`).join('')}</div>`).join('')}
