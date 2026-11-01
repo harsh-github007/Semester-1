@@ -17,7 +17,7 @@ Start with **Valuation → Money today vs money later**, or the six math refresh
 ## What is included
 
 - Seven hands-on concept experiments: present value/growth, option exercise/payoff/profit, forward replication, a daily futures margin ledger, project NPV/IRR, bond price vs yield, and CAPM required return. They appear before the sketches in ten lesson placements; they do not yet cover every topic.
-- A Bloomberg warm-up quiz (`bloomberg-practice.html`): 32 original multiple-choice questions across Economic Indicators, Currencies, Fixed Income and Equities, with instant explanations and a 70% per-topic readiness line. It does not count toward certification.
+- A Bloomberg warm-up quiz (`bloomberg-practice.html`): 32 original multiple-choice questions across Economic Indicators, Currencies, Fixed Income and Equities, with instant explanations and a 70% per-topic study target. It does not count toward certification or predict readiness; four original market cases add applied explanations.
 
 
 - 35 unique visual lessons, with beginner introductions, prerequisite links, explained multiple-choice checks, worked examples, and original calculators.
@@ -37,9 +37,9 @@ See `CONTENT_SOURCES.md` for source mapping, known gaps and the update workflow.
 
 The `private-materials/` folder retains its original name but now includes 40 user-authorized course PDFs (including books) and two exam photos in Git and deployment. Its `index.json` lists these 42 files. Other local pack formats remain excluded. New PDFs imported through the UI are stored in IndexedDB on that browser; they do not enter this folder and do not automatically rewrite lessons. Keep original files and export study backups regularly. Browser data is not synced between devices and can be cleared or evicted.
 
-The original PDFs in `pdf/` remain as historical printable editions. They do **not** include the new beginner layer, corrected calculator behavior or personal notes.
+The PDFs in `pdf/` were regenerated on November 1, 2026 from the current lesson and practice sources. They include beginner stories, vocabulary, worked examples, lesson checks with answers, paper labs, existing midterm practice and two new mock finals. Personal browser notes are not included. The combined edition has subject bookmarks; individual mock PDFs put all questions before their worked solutions.
 
-The original course content is retained with targeted corrections and scaffolding, not certified as a full replacement for the lectures or textbooks. Missing Risk decks, later uploads and the current final assessment scope still need confirmation. Practice is based on a historical **midterm**, not a prediction of the final. The practice timer resets when the page reloads; written answers persist.
+The original course content is retained with targeted corrections and scaffolding, not certified as a full replacement for the lectures or textbooks. Missing Risk decks, later uploads and the current final assessment scope still need confirmation. Midterm practice follows the supplied historical papers. Two additional 100-point, eight-question mock finals extend into the supplied Valuation and Derivatives syllabi. Their 120-minute suggested duration, selection and weights are original study choices, not predictions or confirmed final rules. The practice timer resets when the page reloads; written answers persist.
 
 ## Offline behavior
 
@@ -69,4 +69,17 @@ They verify all lesson IDs, beginner coverage, sketch geometry, calculator defau
 
 ## Deploy the app code
 
-Import the repository into Vercel as a static site (Framework: Other, no build command). `.vercelignore` includes the authorized PDFs, exam photos and library index while excluding other local pack formats. The library opens with 42 included materials; users can also add browser-local PDFs.
+Import the repository into Vercel as a static site (Framework: Other, no build command). `.vercelignore` includes the authorized PDFs, exam photos and library index while excluding other local pack formats. The library opens with 42 included materials from `assets/materials-index.js`; users can also add browser-local PDFs. There is no runtime catalogue fetch. The release tests verify every packaged file and size; `.vercelignore` excludes only other local pack formats. A successful code check is not proof that a particular live deployment is current.
+
+## Rebuild the printable guides
+
+Run `node scripts/export-study.cjs`, then `python3 scripts/build-study-pdfs.py`. The Python environment needs reportlab and pypdf. Pass `--font /path/to/DejaVuSans.ttf` or set `STUDY_PDF_FONT` outside the bundled desktop runtime. The exporter checks library entries and generates the browser catalogue from `private-materials/index.json`. The print builder reads the exported lesson/practice data, adds paper experiments, and writes the five subject/combined editions and two mock finals in `pdf/`. The edition date is explicit in the builder; update it when issuing a later edition.
+
+Run `node --test tests/*.test.cjs`. Render the new PDFs with Poppler and inspect lesson, lab, question and solution pages before publishing. No source textbook is rewritten by this pipeline.
+
+## November 1 update
+
+- Eight new questions per mock final, separate saved answers and marks, exam mode, timer, PDF copies, and backup support.
+- Four applied Bloomberg market cases; official test questions were not provided, so no official-test fidelity is claimed.
+- Fixed resource navigation after a lesson and the lab IRR calculation for zero, negative and very high returns. Break-even NPV now says exactly that.
+- New regression checks cover those failures, material packaging, mock totals, marking guides, financial calculations and backup validation.

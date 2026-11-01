@@ -74,3 +74,13 @@ The page does not infer the final's scope from this midterm. The syllabus's late
 ## Interactive concept experiments
 
 Four original teaching simulations use deliberately small illustrative values: annual-compounded present value, long European call/put expiry cash flows, one-year continuous-financing stock-forward replication with a six-month known dividend, and a zero-interest futures margin ledger. Each states its assumptions and includes an explained prediction check. They supplement the source-specific exam walkthroughs; they do not replace their rate and timing conventions.
+
+## November 1 print and mock-final revision
+
+The five printable study editions are generated from current app lessons, beginner scaffolds and practice data, with paper labs instead of interactive controls. The full guide bundles the four subject editions; personal browser notes are not exported.
+
+`assets/mock-data.js` contains two original 100-point practice papers. Derivatives draws its coverage from the supplied Fall 2026 FRE 6073 syllabus (forward/futures mechanics, swaps, options, Wiener/Ito reasoning, Black–Scholes and Greeks). Valuation follows the revised FRE 6103 outline, retaining historical midterm reasoning styles and adding later topics: cash-flow option risk adjustments, implied densities, real options, capital budgeting/financing and corporate risk. Each question names its mapping and assumptions. Question weights and the suggested 120-minute limit are practice design choices, not official final rules. These papers sample the syllabus; they are not comprehensive coverage or a predicted exam.
+
+The 32 Bloomberg warm-ups and four market cases are original exercises. No actual BMC test questions were supplied. They should support completion of the official modules, not be presented as replicas of the official tests or a readiness guarantee.
+
+All 42 user-authorized PDFs/photos are now indexed in a bundled browser script generated from the material manifest. This removes the runtime JSON-fetch dependency, while the source manifest remains checked into the repository.
