@@ -1,63 +1,19 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Finals Sketchbook</title>
-<meta name="description" content="Beginner-friendly visual classes for Derivatives, Valuation, Risk Management and Bloomberg finals.">
-<meta name="theme-color" content="#16223a">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
-<style>
-:root{--paper:#f5f7fb;--sheet:#fff;--grid:#e3e9f2;--ink:#16223a;--mut:#5a6880;--blue:#2457d6;--pen:#cf3f35;--green:#1d8656;--hl:#ffe680;--hl-ink:#3a2f00;--line:#cfd8e6;
- --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Atkinson Hyperlegible",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
- padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root{--paper:#0f1622;--sheet:#151e2d;--grid:#1d2839;--ink:#e7edf6;--mut:#97a5bb;--blue:#7ea7ff;--pen:#ff7b6f;--green:#4fc78d;--hl:#5c4d0f;--hl-ink:#fff0b0;--line:#2a3850;color-scheme:dark}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
- background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
- padding:32px max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px))}
-.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
-h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.1}
-h1{font-size:clamp(36px,6vw,60px);font-weight:800;letter-spacing:-.02em}
-.lede{font-size:19px;max-width:60ch;margin:10px 0 0}.lede mark{background:var(--hl);color:var(--hl-ink);padding:0 3px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-a.card{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink);background:var(--sheet);border:2px solid var(--ink);border-radius:14px;padding:20px 22px;transition:transform .15s}
-a.card:hover{transform:translateY(-2px)} a.card:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.card h2{font-size:28px}.card .cnt{font-family:var(--mono);font-size:13px;color:var(--mut);white-space:nowrap}
-.card p{margin:0;color:var(--mut);font-size:15px}
-.bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green);width:0}
-.prog{font-family:var(--mono);font-size:12px;color:var(--mut)}
-.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-section.box{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-section.box h3{font-size:20px;margin-bottom:8px}
-section.box ul{margin:0;padding-left:18px}section.box li{margin-bottom:6px}
-section.box a{color:var(--blue)}
-.tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
-@media (max-width:760px){.grid,.row{grid-template-columns:minmax(0,1fr)}}
-</style>
-</head>
-<body>
-<div class="wrap">
- <header><span class="tag">Fall 2026 finals · 35 visual classes</span><h1>Finals Sketchbook</h1>
-  <p class="lede">Pick a subject. Every class has a <mark>sketch you can watch</mark> step by step, a plain explanation, the formulas, a worked example, a calculator and free videos to go deeper.</p></header>
- <div class="grid" id="subjects"></div>
- <div class="row">
-  <section class="box"><h3>Everything in one place</h3><ul><li><a href="all.html">All 35 classes on one page</a></li><li>PDFs to print or read offline: <a href="pdf/Derivatives%20Sketchbook.pdf">Derivatives</a>, <a href="pdf/Valuation%20Sketchbook.pdf">Valuation</a>, <a href="pdf/Risk%20Management%20Sketchbook.pdf">Risk</a>, <a href="pdf/Bloomberg%20Sketchbook.pdf">Bloomberg</a>, <a href="pdf/Finals%20Sketchbook%20-%20All%20Subjects.pdf">All</a></li></ul></section>
-  <section class="box"><h3>Install it like an app</h3><ul><li><b>iPhone:</b> open in Safari → Share → Add to Home Screen.</li><li><b>Android / Chrome:</b> menu → Install app.</li><li>After the first visit, it works offline too.</li></ul></section>
- </div>
-</div>
-<script>
-const S=[['Derivatives','derivatives.html','derivatives',10,'Forwards, futures, swaps, hedging, option strategies, binomial trees, Black-Scholes.'],
- ['Valuation','valuation.html','valuation',11,'Present value, loans, bonds, NPV/IRR, simulation, CAPM, CDOs, volatility smiles, real options.'],
- ['Risk Management','risk-management.html','risk',11,'VaR and ES, duration, immunization, FX, Greeks, credit, CVA, op risk, Basel, stress tests.'],
- ['Bloomberg','bloomberg.html','bloomberg',5,'Getting set up, economic indicators, currencies, fixed income and equities for the BMC tests.']];
-document.getElementById('subjects').innerHTML=S.map(([n,u,k,c,d])=>{let done=0;try{done=Object.values(JSON.parse(localStorage.getItem('fsb-done-'+k)||'{}')).filter(Boolean).length}catch(e){}
- return `<a class="card" href="${u}"><div class="top"><h2>${n}</h2><span class="cnt">${c} classes</span></div><p>${d}</p><div class="bar"><i style="width:${done/c*100}%"></i></div><span class="prog">${done} of ${c} done</span></a>`}).join('');
-if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
-</script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Finals Sketchbook · Your NYU study desk</title><meta name="description" content="Your first NYU term, explained one idea at a time. Visual finance lessons, practice and a personal course-materials shelf."><meta name="theme-color" content="#16223a"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/study.css"></head><body>
+<a class="skip" href="#main">Skip to study desk</a><header class="appbar"><a class="wordmark" href="index.html">Finals Sketchbook</a><nav aria-label="Main navigation"><a href="syllabus.html">Course map</a><a href="all.html">All lessons</a><a href="library.html">Course materials</a><label class="theme-label">Appearance <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></nav></header>
+<main id="main" class="home"><div class="home-intro"><div><h1>Your first term.<br>One idea at a time.</h1><p class="welcome">Finance makes more sense when you start with the story, then learn the math.</p><p>Your NYU Fall 2026 study desk: three academic subjects and Bloomberg certification preparation. Start small. Ask why. Try again.</p><p id="overall" class="small"></p></div><section class="start-panel"><h2 id="next-heading">Start with the basics</h2><p id="next-description">First, learn what “money today” and “money later” mean. You only need multiplication and division to begin.</p><a class="btn primary" id="resume" href="valuation.html#class-1">Start your first lesson</a><p class="small">Read the everyday idea, walk through the sketch, then answer one short question.</p><a href="#foundations">Need a quick math refresher?</a></section></div>
+<section aria-labelledby="subjects-heading"><div class="desk-heading"><h2 id="subjects-heading">Your subjects</h2><a href="all.html">Browse all 35 lessons</a></div><div id="subjects" class="subjects"></div></section>
+<section style="margin-top:32px"><label class="search-label" for="search">Find an idea, formula or lesson</label><input type="search" id="search" placeholder="Try present value, options, or correlation" autocomplete="off"><p id="results-status" class="status" role="status"></p><ul id="results" class="result-list"></ul></section>
+<div class="home-lower"><div><section class="foundations" id="foundations"><h2>Before the finance</h2><p class="small">Six small ideas you can return to whenever the math feels unfamiliar.</p>
+<details><summary>Percentages are parts of 100</summary><p>5% means 5 out of 100, or 0.05. To find 5% of $200, calculate 0.05 × 200 = $10. If an input says “rate (%)”, enter 5. If a formula needs a decimal rate, use 0.05.</p></details>
+<details><summary>Growth multiplies; discounting divides</summary><p>At 10% for one year, $100 grows to 100 × 1.10 = $110. To find what that $110 is worth one year earlier at the same rate, calculate 110 ÷ 1.10 = $100.</p></details>
+<details><summary>Powers mean repeated multiplication</summary><p>1.05² means 1.05 × 1.05. That is two years of 5% compound growth. The little number tells you how many times the growth factor is applied.</p></details>
+<details><summary>Expected value is a weighted average</summary><p>If a fair coin pays $10 for heads and $0 for tails, its expected payment is 0.5 × 10 + 0.5 × 0 = $5. You never receive $5 in one toss; it describes the long-run average.</p></details>
+<details><summary>Signs and units tell a story</summary><p>Positive cash flow means money received; negative means money paid, from the chosen person’s viewpoint. Always write currency and time. A yearly rate is not a monthly rate. One year is 12 months.</p></details>
+<details><summary>A formula is a sentence with short names</summary><p>PV = FV ÷ (1 + r) says “today’s value equals next year’s money divided by its growth factor.” PV and FV are amounts, r is a decimal rate. Read the sentence before entering numbers.</p></details></section>
+<section><h2>Prepare from your syllabus</h2><p>See how each paper question connects to the syllabus, what to learn first and which later topics still need attention.</p><div class="actions"><a class="btn primary" href="syllabus.html">Open your course map</a><a class="btn" href="derivatives-practice.html">Derivatives paper practice</a></div></section><section><h2>Practice for your Valuation midterm</h2><p>Use practice built around the question types in your supplied 2025 paper. Attempt the setup before revealing the solution.</p><a class="btn" href="practice.html">Open midterm-style practice</a></section>
+<section id="review-section" hidden><h2>Ideas to revisit</h2><p class="small">These are questions you last missed. A mistake is a useful place to restart.</p><ul id="review-list" class="result-list"></ul></section>
+<section><h2>Keep your work</h2><p class="small">Progress, notes and self-reported scores stay in this browser. Export a backup to move them to another browser. PDFs are managed separately in Course materials.</p><div class="actions"><button class="btn" id="export">Export study backup</button><label class="btn" role="button" tabindex="0" for="import">Restore study backup</label><input type="file" id="import" accept="application/json,.json" hidden></div><p id="backup-status" class="status" role="status"></p></section></div>
+<div><section class="certification" id="certification"><h2>Bloomberg certification</h2><p>Complete the official tests on Bloomberg. This app helps you prepare and keep your own checklist.</p><p><strong>70% or higher on each of four tests.</strong><br>Deadline in your study pack: December 14, 2026.</p><p class="small">From your October 30 requirements note. Verify the four required tests and any updates in Brightspace/Bloomberg. A certificate alone does not establish the score requirement.</p><div id="scores"></div><p id="score-status" class="score-message" role="status"></p><label><span>I verified my class enrollment on Bloomberg</span><input type="checkbox" id="enrolled"></label><label><span>I verified all four official scores are reported</span><input type="checkbox" id="reported"></label><p class="small">These are self-reported notes, not a connection to Bloomberg or certification verification.</p><div class="actions"><a class="btn primary" href="bloomberg.html">Prepare for BMC</a><a href="https://brightspace.nyu.edu/d2l/lms/news/main.d2l?ou=626288">Course announcements</a></div></section>
+<section style="margin-top:32px"><h2>Your course pack grows with you</h2><p>Add new lecture PDFs each week and keep your textbooks close. The shelf stores files on this browser; lesson content is updated separately.</p><a href="library.html">Open course materials</a><p class="small">Risk coverage currently relies on the syllabus: RMN1–RMNA lecture decks are missing from the supplied October 30 pack. Exact final exam dates and the Valuation exam/project route still need confirmation.</p></section>
+<section><h2>Printable notes</h2><p class="small">Original PDF editions; they do not include the new beginner checks or your personal notes.</p><p><a href="pdf/Derivatives%20Sketchbook.pdf">Derivatives</a> · <a href="pdf/Valuation%20Sketchbook.pdf">Valuation</a> · <a href="pdf/Risk%20Management%20Sketchbook.pdf">Risk</a> · <a href="pdf/Bloomberg%20Sketchbook.pdf">Bloomberg</a> · <a href="pdf/Finals%20Sketchbook%20-%20All%20Subjects.pdf">All subjects</a></p></section></div></div></main>
+<footer class="appfooter"><span id="connection"></span><span id="save-status" role="status">Personal study companion · not an official NYU course site.</span></footer><noscript><p>Enable JavaScript for the study desk, or open the printable notes above.</p></noscript><script src="assets/config.js"></script><script src="assets/common.js"></script><script src="assets/lessons.js"></script><script src="assets/beginner.js"></script><script src="assets/home.js"></script></body></html>
