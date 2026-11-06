@@ -12,7 +12,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 Open http://127.0.0.1:8000. Keep the server running while opening the local study-pack files. On macOS, `Start Sketchbook.command` starts the server from the correct folder. If port 8000 is busy, use 8001; note that a different port has separate browser storage.
 
-Start with **Valuation → Money today vs money later**, or the six math refreshers on the desk. Each lesson follows: everyday idea → vocabulary → sketch → formulas → attempt → reveal solution → comprehension check → personal explanation.
+Start with **Valuation → Money today vs money later**, or the six math refreshers on the desk. Each lesson follows: everyday idea → vocabulary → three short videos (the idea, the worked example, and the traps) → formulas → attempt → reveal solution → comprehension check → personal explanation.
 
 ## What is included
 
