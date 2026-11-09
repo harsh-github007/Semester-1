@@ -12,7 +12,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 Open http://127.0.0.1:8000. Keep the server running while opening the local study-pack files. On macOS, `Start Sketchbook.command` starts the server from the correct folder. If port 8000 is busy, use 8001; note that a different port has separate browser storage.
 
-Start with **Valuation → Money today vs money later**, or the six math refreshers on the desk. Each lesson follows: everyday idea → vocabulary → sketch → formulas → attempt → reveal solution → comprehension check → personal explanation.
+Start with **Valuation → Money today vs money later**, or the six math refreshers on the desk. Each lesson follows: everyday idea → vocabulary → three short videos (the idea, the worked example, and the traps) → formulas → attempt → reveal solution → comprehension check → personal explanation.
 
 ## What is included
 
@@ -83,3 +83,5 @@ Run `node --test tests/*.test.cjs`. Render the new PDFs with Poppler and inspect
 - Four applied Bloomberg market cases; official test questions were not provided, so no official-test fidelity is claimed.
 - Fixed resource navigation after a lesson and the lab IRR calculation for zero, negative and very high returns. Break-even NPV now says exactly that.
 - New regression checks cover those failures, material packaging, mock totals, marking guides, financial calculations and backup validation.
+
+The player defaults to a full beginner lesson with context, prerequisite refreshers, vocabulary, diagram steps, the complete worked example, common mistakes, a paused question and a recap. Chapter selection and a clickable transcript support review. Quick sketch, worked-example and common-mistake videos remain available in the format selector. Narration uses the browser’s speech voice; captions remain available.

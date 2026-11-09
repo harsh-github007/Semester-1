@@ -44,7 +44,7 @@ function buildGuidedLesson(c,b,beginner=BEGINNER){
  add('Start here','What are we trying to understand?',`In this lesson, we will ${goal.toLowerCase()}. ${why} We will start with an everyday situation, explain the vocabulary, walk through the diagram, and solve an example together.`,goal);
  add('Start here','Picture this situation',b.story,b.story);
  for(const id of b.prerequisites.slice(0,2))add('Start here','One useful idea to bring with you',`Before we continue: ${beginner[id].words} ${beginner[id].story}`,beginner[id].story,{prerequisite:id});
- const words=lessonText(b.words).split(/(?<=[.!?])\s+/).filter(Boolean);
+ const words=(lessonText(b.words).match(/.*?[.!?](?:\s+|$)|.+$/g)||[]).map(s=>s.trim()).filter(Boolean);
  words.forEach((text,i)=>add('Understand','Words before formulas',text,words.length>1?`Definition ${i+1} of ${words.length}\n${text}`:text));
  const paragraphs=lessonText(c.plain).split(/\n+/).map(s=>s.trim()).filter(Boolean);
  paragraphs.forEach((text,i)=>add('Understand',i===0?'Why the idea works':'Build the idea, one part at a time',text,text));

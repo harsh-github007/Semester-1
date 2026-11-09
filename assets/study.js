@@ -16,10 +16,10 @@ nav.addEventListener('click',e=>{const b=e.target.closest('button.cl');if(!b)ret
 pick.addEventListener('change',()=>{+pick.value<0?location.hash='watch':go(+pick.value)});
 let timer=null,step=0,cur=0,playing=false;
 function go(i){location.hash='class-'+(i+1)}
-function show(i){stop();cur=i;step=0;const c=CLASSES[i];c._guided=buildGuidedLesson(c,BEGINNER[c.id]);renderNav(i);Store.write('fsb-last',c.id);document.title=c.title+' · Finals Sketchbook';
+function show(i){stop();cur=i;step=0;const c=CLASSES[i];c._guided=buildGuidedLesson(c,BEGINNER[c.id]);c._videos=lessonVideos(c).map(v=>({...v,items:v.draw()}));renderNav(i);Store.write('fsb-last',c.id);document.title=c.title+' · Finals Sketchbook';
  sheet.innerHTML=`<div class="head"><span class="num">Class ${i+1} of ${CLASSES.length}</span><span class="tag">${c.subj}</span>${c.tag!==c.subj?`<span class="tag">also ${c.tag.replace(c.subj,'').replace(/^ \+ | \+ $/,'')}</span>`:''}</div>
  <h2 class="title">${c.title}</h2><p class="oneline">${c.one}</p>${beginnerHTML(c)}${labHTML(c.id)}
- <section class="guided-intro"><h3>Learn this from the beginning</h3><p>A guided, narrated lesson with definitions, pictures and a worked example. It pauses before your attempt. Turn Voice on to listen; captions and the full transcript are always available.</p></section><div class="player" id="player" tabindex="-1" aria-label="Guided lesson for ${c.title}. Space plays or pauses, arrow keys move between steps."><div class="lesson-tools"><label>Lesson format <select id="lesson-format"><option value="guided">Full beginner lesson</option><option value="sketch">Quick sketch revision</option></select></label><label>Jump to chapter <select id="lesson-chapter"></select></label></div><div class="stage"><div id="lesson-board" class="lesson-board"><h3 id="scene-title"></h3><p id="scene-visual"></p><p id="scene-prompt" class="small"></p><div id="scene-check"></div></div><svg id="svg" viewBox="${W}" role="img" aria-label="Step-by-step sketch for ${c.title}"></svg>
+ <section class="guided-intro"><h3>Learn this from the beginning</h3><p>A guided, narrated lesson with definitions, pictures and a worked example. It pauses before your attempt. Turn Voice on to listen; captions and the full transcript are always available.</p></section><div class="player" id="player" tabindex="-1" aria-label="Guided lesson for ${c.title}. Space plays or pauses, arrow keys move between steps."><div class="lesson-tools"><label>Lesson format <select id="lesson-format"><option value="guided">Full beginner lesson</option><option value="sketch">Quick sketch revision</option><option value="example">Worked-example video</option><option value="traps">Common-mistakes video</option></select></label><label>Jump to chapter <select id="lesson-chapter"></select></label></div><div class="stage"><div id="lesson-board" class="lesson-board"><h3 id="scene-title"></h3><p id="scene-visual"></p><p id="scene-prompt" class="small"></p><div id="scene-check"></div></div><svg id="svg" viewBox="${W}" role="img" aria-label="Step-by-step sketch for ${c.title}"></svg>
   <div class="endcard" id="endcard" hidden><p class="end-t">Lesson finished</p><p class="small">Now try the worked example below on paper, then check the solution.</p><div class="end-b"><button class="btn" id="replay">↺ Watch again</button><button class="btn primary" id="toex">Try the example ↓</button></div></div></div>
   <div class="tl" id="dots" role="group" aria-label="Steps"></div>
   <div class="cap" aria-live="polite"><span class="k" id="kk"></span><span id="cap"></span></div>
@@ -47,7 +47,7 @@ let lessonMode='guided',checkpointReady=false;
 const PREF={voice:Store.read('fsb-voice',true)===true,speed:SPEEDS.includes(Store.read('fsb-speed',1))?Store.read('fsb-speed',1):1};
 const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined';
 let safety=null,raf=0,tok=0,stepStart=0,stepDur=1;
-const framesOf=()=>lessonMode==='guided'?CLASSES[cur]._guided:CLASSES[cur].sketch.caps.map((text,sketch)=>({chapter:'Quick sketch',title:'Follow the picture',text,visual:text,sketch}));
+const framesOf=()=>{const c=CLASSES[cur];if(lessonMode==='guided')return c._guided;const v=c._videos[({sketch:0,example:1,traps:2})[lessonMode]];return v.caps.map((text,sketch)=>({chapter:v.name,title:v.name,text,visual:text,sketch,items:v.items}));};
 const capsOf=()=>framesOf().map(f=>f.text);
 const stepMs=t=>Math.max(7000,t.split(/\s+/).length*460+1800)/PREF.speed;
 const fmtT=ms=>{const s=Math.round(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
@@ -62,7 +62,7 @@ function say(text,done){if(!(PREF.voice&&canSpeak)){return false}hush();const my
 function draw(k){const c=CLASSES[cur],frames=framesOf(),n=frames.length;k=Math.max(0,Math.min(n-1,k));step=k;checkpointReady=false;const f=frames[k];
  const sketch=f.sketch;
  $('svg').toggleAttribute('hidden',sketch===undefined);$('lesson-board').hidden=sketch!==undefined;
- if(sketch!==undefined){$('svg').innerHTML=c._items.filter(([s])=>Array.isArray(s)?sketch>=s[0]&&sketch<=s[1]:s<=sketch).map(([s,m])=>`<g>${m}</g>`).join('');}
+ if(sketch!==undefined){$('svg').innerHTML=(f.items||c._items).filter(([s])=>Array.isArray(s)?sketch>=s[0]&&sketch<=s[1]:s<=sketch).map(([s,m])=>`<g>${m}</g>`).join('');}
  $('scene-title').textContent=f.title;$('scene-visual').textContent=f.visual;$('scene-prompt').textContent=f.prompt||'';
  $('scene-check').innerHTML=f.checkpoint?`<fieldset><legend>${escapeHTML(BEGINNER[c.id].question)}</legend>${BEGINNER[c.id].options.map((text,i)=>`<button class="btn" data-video-answer="${i}">${escapeHTML(text)}</button>`).join('')}</fieldset><p id="video-feedback" role="status"></p>`:'';
  $('scene-check').querySelectorAll('[data-video-answer]').forEach(b=>b.onclick=()=>{stop();checkpointReady=true;const answer=BEGINNER[c.id];$('video-feedback').textContent=(+b.dataset.videoAnswer===answer.answer?'Correct. ':'Not quite. ')+answer.why;$('scene-check').querySelectorAll('button').forEach(button=>{button.disabled=true;});$('play').textContent='Continue to recap';});
