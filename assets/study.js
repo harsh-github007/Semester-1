@@ -16,15 +16,15 @@ nav.addEventListener('click',e=>{const b=e.target.closest('button.cl');if(!b)ret
 pick.addEventListener('change',()=>{+pick.value<0?location.hash='watch':go(+pick.value)});
 let timer=null,step=0,cur=0,playing=false;
 function go(i){location.hash='class-'+(i+1)}
-function show(i){cur=i;step=0;stop();const c=CLASSES[i];renderNav(i);Store.write('fsb-last',c.id);document.title=c.title+' · Finals Sketchbook';
+function show(i){stop();cur=i;step=0;const c=CLASSES[i];c._guided=buildGuidedLesson(c,BEGINNER[c.id]);renderNav(i);Store.write('fsb-last',c.id);document.title=c.title+' · Finals Sketchbook';
  sheet.innerHTML=`<div class="head"><span class="num">Class ${i+1} of ${CLASSES.length}</span><span class="tag">${c.subj}</span>${c.tag!==c.subj?`<span class="tag">also ${c.tag.replace(c.subj,'').replace(/^ \+ | \+ $/,'')}</span>`:''}</div>
  <h2 class="title">${c.title}</h2><p class="oneline">${c.one}</p>${beginnerHTML(c)}${labHTML(c.id)}
- <div class="player" id="player" tabindex="-1" aria-label="Sketch video for ${c.title}. Space plays or pauses, arrow keys move between steps."><div class="stage"><svg id="svg" viewBox="${W}" role="img" aria-label="Step-by-step sketch for ${c.title}"></svg>
-  <div class="endcard" id="endcard" hidden><p class="end-t">✓ Sketch finished</p><p class="small">Now try the worked example below on paper, then check the solution.</p><div class="end-b"><button class="btn" id="replay">↺ Watch again</button><button class="btn primary" id="toex">Try the example ↓</button></div></div></div>
+ <section class="guided-intro"><h3>Learn this from the beginning</h3><p>A guided, narrated lesson with definitions, pictures and a worked example. It pauses before your attempt. Turn Voice on to listen; captions and the full transcript are always available.</p></section><div class="player" id="player" tabindex="-1" aria-label="Guided lesson for ${c.title}. Space plays or pauses, arrow keys move between steps."><div class="lesson-tools"><label>Lesson format <select id="lesson-format"><option value="guided">Full beginner lesson</option><option value="sketch">Quick sketch revision</option></select></label><label>Jump to chapter <select id="lesson-chapter"></select></label></div><div class="stage"><div id="lesson-board" class="lesson-board"><h3 id="scene-title"></h3><p id="scene-visual"></p><p id="scene-prompt" class="small"></p><div id="scene-check"></div></div><svg id="svg" viewBox="${W}" role="img" aria-label="Step-by-step sketch for ${c.title}"></svg>
+  <div class="endcard" id="endcard" hidden><p class="end-t">Lesson finished</p><p class="small">Now try the worked example below on paper, then check the solution.</p><div class="end-b"><button class="btn" id="replay">↺ Watch again</button><button class="btn primary" id="toex">Try the example ↓</button></div></div></div>
   <div class="tl" id="dots" role="group" aria-label="Steps"></div>
   <div class="cap" aria-live="polite"><span class="k" id="kk"></span><span id="cap"></span></div>
   <div class="ctrl"><button class="btn" id="prev">◀ Back</button><button class="btn primary" id="play">▶ Play</button><button class="btn" id="next">Next ▶</button>
-   <span class="ctrl-r"><button class="btn" id="voice" aria-pressed="false" title="Read each step aloud (V)">🔈 Voice off</button><label class="speed">Speed <select id="speed">${[0.75,1,1.25,1.5].map(v=>`<option value="${v}">${v}×</option>`).join('')}</select></label><button class="btn" id="full" aria-pressed="false" title="Full screen (F)">⛶ Big screen</button><span class="time" id="time"></span></span></div></div>
+   <span class="ctrl-r"><button class="btn" id="voice" aria-pressed="false" title="Read each step aloud (V)">🔈 Voice off</button><label class="speed">Speed <select id="speed">${[0.75,1,1.25,1.5].map(v=>`<option value="${v}">${v}×</option>`).join('')}</select></label><button class="btn" id="full" aria-pressed="false" title="Full screen (F)">⛶ Big screen</button><span class="time" id="time"></span></span></div></div><details class="video-transcript"><summary>Read the full lesson transcript</summary><ol id="lesson-transcript"></ol></details>
  <div class="grid2">
   <section class="blk plain"><h3>What it means <small>plain words</small></h3>${c.plain}</section>
   <section class="blk"><h3>Connect it to the math</h3><p class="small">Read the symbols below as names for quantities. Use the worked example to see where each number goes.</p><div class="formula">${c.formula}</div><p class="legend">${c.legend}</p></section>
@@ -43,11 +43,13 @@ function show(i){cur=i;step=0;stop();const c=CLASSES[i];renderNav(i);Store.write
  bindPractice(c);bindLab();c._items=c.sketch.draw();draw(0)}
 /* ---------- sketch video player: timeline, voice, speed, big screen ---------- */
 const SPEEDS=[0.75,1,1.25,1.5];
-const PREF={voice:Store.read('fsb-voice',false)===true,speed:SPEEDS.includes(Store.read('fsb-speed',1))?Store.read('fsb-speed',1):1};
+let lessonMode='guided',checkpointReady=false;
+const PREF={voice:Store.read('fsb-voice',true)===true,speed:SPEEDS.includes(Store.read('fsb-speed',1))?Store.read('fsb-speed',1):1};
 const canSpeak=typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined';
 let safety=null,raf=0,tok=0,stepStart=0,stepDur=1;
-const capsOf=()=>CLASSES[cur].sketch.caps;
-const stepMs=t=>Math.max(3800,t.split(/\s+/).length*400+1200)/PREF.speed;
+const framesOf=()=>lessonMode==='guided'?CLASSES[cur]._guided:CLASSES[cur].sketch.caps.map((text,sketch)=>({chapter:'Quick sketch',title:'Follow the picture',text,visual:text,sketch}));
+const capsOf=()=>framesOf().map(f=>f.text);
+const stepMs=t=>Math.max(7000,t.split(/\s+/).length*460+1800)/PREF.speed;
 const fmtT=ms=>{const s=Math.round(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const $=id=>document.getElementById(id);
 // Turn caption symbols into words a speech voice can read.
@@ -57,12 +59,22 @@ function spoken(t){return t.replace(/max\(/g,'the larger of (').replace(/e\^\(?(
 function hush(){if(canSpeak)speechSynthesis.cancel()}
 function say(text,done){if(!(PREF.voice&&canSpeak)){return false}hush();const my=++tok,u=new SpeechSynthesisUtterance(spoken(text));u.rate=Math.min(1.6,PREF.speed*0.95);u.lang='en-US';
  const end=()=>{if(my===tok&&done){const d=done;done=null;d()}};u.onend=end;u.onerror=end;try{speechSynthesis.speak(u)}catch{return false}return end}
-function draw(k){const c=CLASSES[cur],caps=c.sketch.caps,n=caps.length;k=Math.max(0,Math.min(n-1,k));step=k;
- const html=c._items.filter(([s])=>Array.isArray(s)?k>=s[0]&&k<=s[1]:s<=k).map(([s,m])=>{const isNew=Array.isArray(s)?k===s[0]||s[0]===s[1]:s===k;return `<g class="${isNew?'pop fresh':''}">${isNew?m.replace(/class="([^"]*) draw"/g,'class="$1 draw pop"'):m.replace(/ draw"/g,'"')}</g>`}).join('');
- $('svg').innerHTML=html;const cap=$('cap');cap.textContent=caps[k];cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');$('kk').textContent=`Step ${k+1}/${n}`;
- $('dots').innerHTML=caps.map((t,j)=>`<button class="seg${j<k?' done':''}${j===k?' now':''}" data-j="${j}" aria-label="Go to step ${j+1}" title="Step ${j+1}: ${escapeHTML(t)}"${j===k?' aria-current="step"':''}><i></i></button>`).join('');
+function draw(k){const c=CLASSES[cur],frames=framesOf(),n=frames.length;k=Math.max(0,Math.min(n-1,k));step=k;checkpointReady=false;const f=frames[k];
+ const sketch=f.sketch;
+ $('svg').toggleAttribute('hidden',sketch===undefined);$('lesson-board').hidden=sketch!==undefined;
+ if(sketch!==undefined){$('svg').innerHTML=c._items.filter(([s])=>Array.isArray(s)?sketch>=s[0]&&sketch<=s[1]:s<=sketch).map(([s,m])=>`<g>${m}</g>`).join('');}
+ $('scene-title').textContent=f.title;$('scene-visual').textContent=f.visual;$('scene-prompt').textContent=f.prompt||'';
+ $('scene-check').innerHTML=f.checkpoint?`<fieldset><legend>${escapeHTML(BEGINNER[c.id].question)}</legend>${BEGINNER[c.id].options.map((text,i)=>`<button class="btn" data-video-answer="${i}">${escapeHTML(text)}</button>`).join('')}</fieldset><p id="video-feedback" role="status"></p>`:'';
+ $('scene-check').querySelectorAll('[data-video-answer]').forEach(b=>b.onclick=()=>{stop();checkpointReady=true;const answer=BEGINNER[c.id];$('video-feedback').textContent=(+b.dataset.videoAnswer===answer.answer?'Correct. ':'Not quite. ')+answer.why;$('scene-check').querySelectorAll('button').forEach(button=>{button.disabled=true;});$('play').textContent='Continue to recap';});
+ const cap=$('cap');cap.textContent=f.text;cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');$('kk').textContent=`${k+1} / ${n}`;
+ $('dots').innerHTML=frames.map((f,j)=>`<button class="seg${j<k?' done':''}${j===k?' now':''}" data-j="${j}" aria-label="Step ${j+1}: ${escapeHTML(f.title)}" title="${escapeHTML(f.chapter+': '+f.title)}"${j===k?' aria-current="step"':''}><i></i></button>`).join('');
  $('dots').querySelectorAll('button').forEach(b=>b.onclick=()=>manual(+b.dataset.j));
- $('prev').disabled=k===0;$('next').disabled=k===n-1;$('endcard').hidden=true;showTime(0)}
+ $('lesson-chapter').value=f.chapter;$('prev').disabled=k===0;$('next').disabled=k===n-1;$('endcard').hidden=true;showTime(0)}
+function setupLessonNavigation(){const frames=framesOf();$('lesson-format').value=lessonMode;
+ $('lesson-chapter').innerHTML=[...new Set(frames.map(f=>f.chapter))].map(ch=>`<option>${escapeHTML(ch)}</option>`).join('');
+ $('lesson-transcript').innerHTML=frames.map((f,i)=>`<li><button class="transcript-jump" data-scene="${i}">${escapeHTML(f.chapter+' — '+f.title)}</button><p>${escapeHTML(f.text)}</p></li>`).join('');
+ $('lesson-transcript').querySelectorAll('button').forEach(b=>b.onclick=()=>{manual(+b.dataset.scene);$('player').scrollIntoView({block:'start',behavior:'smooth'});});
+}
 function showTime(part){const caps=capsOf(),total=caps.reduce((s,t)=>s+stepMs(t),0),before=caps.slice(0,step).reduce((s,t)=>s+stepMs(t),0);
  $('time').textContent=`${fmtT(before+part)} / ${fmtT(total)}`}
 function tick(){const el=document.querySelector('#dots .now i');if(!el||!playing)return;const t=performance.now()-stepStart,p=Math.min(PREF.voice&&canSpeak?.97:1,t/stepDur);
@@ -70,25 +82,25 @@ function tick(){const el=document.querySelector('#dots .now i');if(!el||!playing
 function clearTimers(){clearTimeout(timer);clearTimeout(safety);cancelAnimationFrame(raf);timer=safety=null;tok++}
 function runStep(){clearTimers();const caps=capsOf(),n=caps.length;stepDur=stepMs(caps[step]);stepStart=performance.now();
  $('player').classList.add('playing');const bar=document.querySelector('#dots .now');if(bar)bar.classList.add('run');tick();
- const next=()=>{if(!playing)return;if(step>=n-1){finish();return}draw(step+1);runStep()};
+ const next=()=>{if(!playing)return;if(framesOf()[step].pause){stop();checkpointReady=!framesOf()[step].checkpoint;$('play').textContent=checkpointReady?'Continue example':'Hear question again';return;}if(step>=n-1){finish();return}draw(step+1);runStep()};
  const end=say(caps[step],()=>{clearTimeout(safety);timer=setTimeout(next,600/PREF.speed)});
  if(end)safety=setTimeout(end,stepDur*2.5);else timer=setTimeout(next,stepDur)}
-function play(){if(step>=capsOf().length-1)draw(0);playing=true;$('play').textContent='❚❚ Pause';$('play').setAttribute('aria-label','Pause');runStep()}
+function play(){if(checkpointReady){draw(step+1);}else if(step>=capsOf().length-1)draw(0);playing=true;$('play').textContent='❚❚ Pause';$('play').setAttribute('aria-label','Pause');runStep()}
 function stop(){playing=false;clearTimers();hush();const b=$('play');if(b){b.textContent='▶ Play';b.removeAttribute('aria-label');$('player').classList.remove('playing');document.querySelector('#dots .now')?.classList.remove('run');const i=document.querySelector('#dots .now i');if(i)i.style.width='';showTime(0)}}
 function finish(){stop();$('endcard').hidden=false;$('dots').querySelectorAll('.seg').forEach(b=>b.classList.add('done'));showTime(capsOf().reduce((s,t)=>s+stepMs(t),0)-capsOf().slice(0,step).reduce((s,t)=>s+stepMs(t),0))}
 function manual(k){stop();draw(k);say(capsOf()[step])}
 function setBig(on){const p=$('player');if(!p)return;p.classList.toggle('theater',on);document.body.classList.toggle('no-scroll',on);$('full').setAttribute('aria-pressed',on);$('full').textContent=on?'✕ Exit big screen':'⛶ Big screen';if(on)p.focus({preventScroll:true})}
-function bindPlayer(i){const p=$('player');
+function bindPlayer(i){const p=$('player');setupLessonNavigation();$('lesson-format').onchange=()=>{stop();lessonMode=$('lesson-format').value;step=0;setupLessonNavigation();draw(0);};$('lesson-chapter').onchange=()=>manual(framesOf().findIndex(f=>f.chapter===$('lesson-chapter').value));
  const setVoice=()=>{const b=$('voice');b.setAttribute('aria-pressed',PREF.voice);b.textContent=PREF.voice?'🔊 Voice on':'🔈 Voice off';b.hidden=!canSpeak};setVoice();
  $('voice').onclick=()=>{PREF.voice=!PREF.voice;Store.write('fsb-voice',PREF.voice);setVoice();if(playing)runStep();else if(PREF.voice)say(capsOf()[step]);else hush()};
  const sp=$('speed');sp.value=String(PREF.speed);sp.onchange=()=>{PREF.speed=+sp.value;Store.write('fsb-speed',PREF.speed);if(playing)runStep();else showTime(0)};
  $('play').onclick=()=>playing?stop():play();$('prev').onclick=()=>manual(step-1);$('next').onclick=()=>manual(step+1);
  $('replay').onclick=()=>{draw(0);play()};$('toex').onclick=()=>{setBig(false);const ex=$('ex-'+i);ex.scrollIntoView({behavior:'smooth',block:'start'});ex.focus({preventScroll:true})};
  $('full').onclick=()=>setBig(!p.classList.contains('theater'));
- p.querySelector('.stage').onclick=e=>{if(!e.target.closest('.endcard'))playing?stop():play()};
- p.onkeydown=e=>{const tag=e.target.tagName;if(e.altKey||e.ctrlKey||e.metaKey||tag==='SELECT')return;
+ p.querySelector('.stage').onclick=e=>{if(!e.target.closest('.endcard,.lesson-board,button'))playing?stop():play()};
+ p.onkeydown=e=>{const tag=e.target.tagName;if(e.altKey||e.ctrlKey||e.metaKey||tag==='SELECT'||tag==='INPUT')return;
   if((e.key===' '||e.key==='k')&&tag!=='BUTTON'){e.preventDefault();playing?stop():play()}
-  else if(e.key==='ArrowRight'){e.preventDefault();manual(step+1)}else if(e.key==='ArrowLeft'){e.preventDefault();manual(step-1)}
+  else if(e.key==='ArrowRight'&&tag!=='BUTTON'){e.preventDefault();manual(step+1)}else if(e.key==='ArrowLeft'&&tag!=='BUTTON'){e.preventDefault();manual(step-1)}
   else if(e.key==='f'){setBig(!p.classList.contains('theater'))}else if(e.key==='v'){$('voice').click()}else if(e.key==='Escape'&&p.classList.contains('theater')){setBig(false)}};
  setBig(false)}
 function showWatch(){stop();cur=-1;document.body.classList.remove('no-scroll');renderNav(-1);
@@ -107,7 +119,7 @@ function filterLessons(){
  document.getElementById('search-status').textContent=query?(found?`${found} matching lessons`:'No matches. Try a shorter word, such as bond or risk.') : '';
 }
 document.getElementById('lesson-search').addEventListener('input',filterLessons);
-function beginnerHTML(c){const b=BEGINNER[c.id];return `<section class="first-idea"><h3>Start with an everyday idea</h3><p>${b.story}</p><details><summary>Words you need for this lesson</summary><p>${b.words}</p></details>${b.prerequisites.length?`<p class="small">Need a step back? ${b.prerequisites.map(id=>`<a href="${lessonLink(id)}">${RAW[id].title}</a>`).join(' · ')}</p>`:'<p class="small">You can start here without earlier finance lessons.</p>'}</section><div class="learning-path" aria-label="Learning sequence"><span>1. Understand the idea</span><span>2. Walk through the sketch</span><span>3. Try, then check</span></div>`;}
+function beginnerHTML(c){const b=BEGINNER[c.id];return `<section class="first-idea"><h3>Start with an everyday idea</h3><p>${b.story}</p><details><summary>Words you need for this lesson</summary><p>${b.words}</p></details>${b.prerequisites.length?`<p class="small">Need a step back? ${b.prerequisites.map(id=>`<a href="${lessonLink(id)}">${RAW[id].title}</a>`).join(' · ')}</p>`:'<p class="small">You can start here without earlier finance lessons.</p>'}</section><div class="learning-path" aria-label="Learning sequence"><span>1. Understand the idea</span><span>2. Follow the guided lesson</span><span>3. Try, then check</span></div>`;}
 function practiceHTML(c){const b=BEGINNER[c.id];return `<section class="quick-check"><h3>Check the idea before moving on</h3><fieldset><legend>${b.question}</legend>${b.options.map((option,i)=>`<label><input type="radio" name="quick-answer" value="${i}"> ${option}</label>`).join('')}</fieldset><button class="btn primary" id="check-answer">Check my answer</button><p id="feedback" role="status"></p></section>`;}
 function bindPractice(c){
  const reading=bookReading(c.id);
