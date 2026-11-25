@@ -1,5 +1,5 @@
 /* Original final-exam practice for Hull Ch 11, 13, 14, 15 and 19 (scope from Ansh, Nov 25 2026).
-   Two papers in the Oct 17 midterm format (5 questions × 8 points, 2 hours), pitched harder. Not an official exam. */
+   Three papers (A, B, C) in the Oct 17 midterm format (5 questions × 8 points, 2 hours), pitched harder. Not an official exam. */
 const CHAPTER_FINAL = {
  "A": [
   {
@@ -254,6 +254,131 @@ const CHAPTER_FINAL = {
     "2: theta sign and size"
    ],
    "reading": "Hull: The Greek letters (delta hedging, gamma, theta, relationship between delta, theta and gamma)."
+  }
+ ],
+ "C": [
+  {
+   "title": "Spot a butterfly arbitrage across three strikes",
+   "points": 8,
+   "lesson": 35,
+   "source": "Ch 11 · Properties of stock options. Written in the textbook-exercise style the midterm drew from (Luenberger / Hull), with new numbers.",
+   "words": "Call prices must be convex in the strike: the middle-strike call can never cost more than the average of its neighbours (for equally spaced strikes). A butterfly (buy low, sell two middle, buy high) never pays less than zero, so it can never have a negative cost.",
+   "warmup": "Strikes 10, 15, 20 with calls 6, 3.5, 1: the average of the outer calls is 3.5, so the middle call at 3.5 is right on the limit.",
+   "question": "A non-dividend stock is $48 and r = 5% (continuous). Three-month European calls are quoted: strike 40 at $9.00, strike 45 at $5.80, strike 50 at $1.80. (a) Check each call against its lower bound and check that the price drop from K = 40 to K = 45 is allowed. (b) Show that the quotes allow an arbitrage, and give the trade and its cash flow today. (c) Give the payoff of your position at expiry if S_T = 38, 45 and 52. (d) Use put-call parity to find the three put prices, and say whether the puts show the same problem.",
+   "hint": "Convexity: c(45) ≤ ½[c(40) + c(50)]. A drop in call price between two strikes can be at most the PV of the strike gap.",
+   "steps": [
+    "(a) Lower bounds: c(40) ≥ 48 − 40e^(−0.0125) = 8.497 ✓ (9.00); c(45) ≥ 48 − 44.441 = 3.559 ✓; c(50) ≥ 0 ✓. Strike gap rule: c(40) − c(45) = 3.20 ≤ 5e^(−0.0125) = 4.938 ✓.",
+    "(b) Convexity: ½(9.00 + 1.80) = 5.40, but c(45) = 5.80 > 5.40, so the middle call is too expensive.",
+    "Trade: sell 2 calls at 45 (+11.60), buy 1 call at 40 (−9.00), buy 1 call at 50 (−1.80). Cash today = +$0.80, invested at r → $0.81 at expiry.",
+    "(c) Payoff = (S−40)⁺ − 2(S−45)⁺ + (S−50)⁺. S_T = 38: 0. S_T = 45: 5. S_T = 52: 12 − 14 + 2 = 0. Never negative, so the total profit is at least $0.81 at expiry.",
+    "(d) p = c + Ke^(−rT) − S: p(40) = 9.00 + 39.503 − 48 = $0.50; p(45) = 5.80 + 44.441 − 48 = $2.24; p(50) = 1.80 + 49.379 − 48 = $3.18.",
+    "Put check: ½(0.50 + 3.18) = 1.84 < 2.24, so the puts break convexity too. Parity carries the same mispricing over, so a put butterfly gives the same arbitrage."
+   ],
+   "rubric": [
+    "2: bounds and strike-gap check",
+    "2: convexity violation identified",
+    "2: trade, cash today and payoffs",
+    "2: parity puts and conclusion"
+   ],
+   "reading": "Hull: Properties of stock options (end-of-chapter problem on convexity in K); Luenberger: Basic options theory (call strike relation)."
+  },
+  {
+   "title": "Price a three-step American put with a dividend yield",
+   "points": 8,
+   "lesson": 15,
+   "source": "Ch 13 · Binomial trees. Written in the textbook-exercise style the midterm drew from (Luenberger / Hull), with new numbers.",
+   "words": "With a continuous dividend yield q, the stock grows at r − q in the risk-neutral world: a = e^((r−q)Δt). More steps means more nodes where early exercise can happen; check every one.",
+   "warmup": "Two steps already showed early exercise at the lowest node. With three steps there can be two exercise nodes on the same path.",
+   "question": "A stock is $100, pays a continuous dividend yield of 2%, and has volatility 20%. r = 6%. Use a three-step Cox–Ross–Rubinstein tree to value a 9-month put with strike $105. (a) Find u, d, a and p. (b) Value the European put. (c) Value the American put and list every node where early exercise is optimal. (d) Explain why the dividend yield makes early exercise of the put less attractive than without dividends.",
+   "hint": "Δt = 0.25. u = e^(0.2×0.5). Final stock prices: 134.99, 110.52, 90.48, 74.08. Work back node by node.",
+   "steps": [
+    "(a) u = e^0.1 = 1.1052, d = 0.9048, a = e^(0.04×0.25) = 1.0101, p = (1.0101 − 0.9048)/(1.1052 − 0.9048) = 0.5252. Discount per step e^(−0.015) = 0.9851.",
+    "Final payoffs: S = 134.99 → 0; 110.52 → 0; 90.48 → 14.516; 74.08 → 30.918.",
+    "Step 2 (European): S = 122.14 → 0; S = 100 → 0.9851(0.5252×0 + 0.4748×14.516) = 6.790; S = 81.87 → 0.9851(0.5252×14.516 + 0.4748×30.918) = 21.972.",
+    "(b) European back to today: step 1 nodes 3.176 (S = 110.52) and 13.790 (S = 90.48); today 0.9851(0.5252×3.176 + 0.4748×13.790) = $8.09.",
+    "(c) American: at S = 81.87 exercise 23.127 > 21.972 → exercise. At S = 90.48 hold = 0.9851(0.5252×6.790 + 0.4748×23.127) = 14.330 < exercise 14.516 → exercise. At S = 110.52 hold 3.176. Today 0.9851(0.5252×3.176 + 0.4748×14.516) = $8.43 > 5 from exercising now.",
+    "American put = $8.43 (premium $0.34 over the European $8.09), with early exercise at S = 90.48 (month 3) and S = 81.87 (month 6).",
+    "(d) A dividend yield lowers the stock's risk-neutral growth to r − q, so the stock is expected to drift lower. That makes the put more valuable if you keep it, so waiting is worth more and early exercise is less attractive. (Here it still pays at the two low nodes.)"
+   ],
+   "rubric": [
+    "2: u, d, a, p with the dividend yield",
+    "2: European value",
+    "3: American value with both exercise nodes",
+    "1: dividend intuition"
+   ],
+   "reading": "Hull: Binomial trees (options on stocks paying a continuous dividend yield; American options); Luenberger: Basic options theory (multiperiod lattices)."
+  },
+  {
+   "title": "Apply Itô to a product of stocks and to a bond price",
+   "points": 8,
+   "lesson": 36,
+   "source": "Ch 14 · Wiener processes and Itô's lemma. Written in the textbook-exercise style the midterm drew from (Luenberger / Hull), with new numbers.",
+   "words": "When two stocks are correlated, dz_A·dz_B = ρ dt. That adds a cross term to the drift of their product. For a bond price P = e^(−x(T−t)), treat x as the random variable and t as time; both have derivatives.",
+   "warmup": "One stock: d(S²)/S² = (2μ + σ²)dt + 2σ dz. The σ² is the Itô correction.",
+   "question": "(a) Stocks A and B follow geometric Brownian motion with μ_A = 11%, σ_A = 25%, μ_B = 15%, σ_B = 30%, and correlation 0.4 between dz_A and dz_B. Find the process for G = S_A·S_B: its expected growth rate and its volatility. (b) The continuously compounded yield x on a zero-coupon bond paying $1 at T follows dx = a(x₀ − x)dt + s·x·dz with a = 0.2, x₀ = 5%, s = 0.15. Today x = 4% and T − t = 5 years. Use Itô's lemma on P = e^(−x(T−t)) to find the drift and volatility of the bond's return. (c) Explain in one line why the bond's expected return is below x here.",
+   "hint": "(a) dG = S_B dS_A + S_A dS_B + dS_A·dS_B. (b) P_x = −(T−t)P, P_xx = (T−t)²P, P_t = xP.",
+   "steps": [
+    "(a) dG/G = (μ_A + μ_B + ρσ_Aσ_B)dt + σ_A dz_A + σ_B dz_B.",
+    "Drift = 0.11 + 0.15 + 0.4×0.25×0.30 = 0.26 + 0.03 = 29% a year. Volatility = √(0.25² + 0.30² + 2×0.4×0.25×0.30) = √0.2125 = 46.1%.",
+    "(b) dP = [P_x·a(x₀ − x) + P_t + ½P_xx·s²x²]dt + P_x·s·x dz = P[−(T−t)a(x₀ − x) + x + ½(T−t)²s²x²]dt − P(T−t)s·x dz.",
+    "Numbers: −5×0.2×0.01 = −0.0100; x = 0.0400; ½×25×0.0225×0.0016 = 0.00045. Drift of dP/P = 0.03045 ≈ 3.05% a year.",
+    "Volatility of dP/P = (T−t)·s·x = 5×0.15×0.04 = 3.0% a year (the minus sign means bond prices fall when yields rise).",
+    "(c) The yield is expected to rise towards 5%, which pushes the bond price down, so the expected return (3.05%) is below today's yield (4%)."
+   ],
+   "rubric": [
+    "3: product rule with the correlation term and numbers",
+    "4: Itô on the bond price, drift and volatility",
+    "1: interpretation"
+   ],
+   "reading": "Hull: Wiener processes and Itô's lemma (end-of-chapter problems on two correlated stocks and on a zero-coupon bond yield); Luenberger: Models of asset dynamics."
+  },
+  {
+   "title": "Price power and digital payoffs with risk-neutral valuation",
+   "points": 8,
+   "lesson": 16,
+   "source": "Ch 15 · The Black–Scholes–Merton model. Written in the textbook-exercise style the midterm drew from (Luenberger / Hull), with new numbers.",
+   "words": "Risk-neutral valuation: replace μ by r, take the expected payoff, discount at r. Under that world ln S_T ~ N(ln S0 + (r − σ²/2)T, σ²T). N(d2) is the probability S_T > K; S0·N(d1) is the value of receiving S_T only when S_T > K.",
+   "warmup": "E[S_T] = S0·e^(rT) in the risk-neutral world, so a claim paying S_T is worth S0 today.",
+   "question": "S0 = 40, r = 5%, σ = 30%, T = 1 year, no dividends. (a) Value a derivative paying S_T² at T. Compare with (forward price)² discounted, and explain the gap. (b) Value a cash-or-nothing call paying $100 if S_T > 45. (c) Value an asset-or-nothing call paying S_T if S_T > 45. (d) Combine (b) and (c) to get the regular European call with K = 45, and say how to check it.",
+   "hint": "E_Q[S_T²] = S0²·e^((2r + σ²)T). d2 = [ln(40/45) + (0.05 − 0.045)]/0.30.",
+   "steps": [
+    "(a) Value = e^(−rT)·S0²·e^((2r + σ²)T) = S0²·e^((r + σ²)T) = 1,600·e^0.14 = $1,840.44.",
+    "Forward = 40e^0.05; (forward)² discounted = 1,600e^0.05 = $1,682.03. The gap ($158) is the convexity: S_T² is a convex payoff, so randomness raises its expected value (the σ² term from Itô).",
+    "(b) d2 = (−0.11778 + 0.005)/0.30 = −0.3759, N(d2) = 0.3535. Value = 100e^(−0.05)×0.3535 = $33.62.",
+    "(c) d1 = d2 + 0.30 = −0.0759, N(d1) = 0.4697. Value = 40×0.4697 = $18.79.",
+    "(d) Call = asset-or-nothing − 45 × (cash-or-nothing per $1) = 18.789 − 45×0.33624 = $3.66. Check with S·N(d1) − Ke^(−rT)N(d2): the same formula, so the call is $3.66."
+   ],
+   "rubric": [
+    "3: power claim with the convexity explanation",
+    "2: cash-or-nothing",
+    "2: asset-or-nothing",
+    "1: decomposition of the call"
+   ],
+   "reading": "Hull: The Black–Scholes–Merton model (risk-neutral valuation; end-of-chapter problems on a derivative paying S_T² and on exercise probability)."
+  },
+  {
+   "title": "Use the theta–gamma relation and find the break-even move",
+   "points": 8,
+   "lesson": 26,
+   "source": "Ch 19 · The Greek letters. Written in the textbook-exercise style the midterm drew from (Luenberger / Hull), with new numbers.",
+   "words": "For any portfolio of derivatives on one stock: Θ + rSΔ + ½σ²S²Γ = rΠ. If the portfolio is delta-neutral, Θ = rΠ − ½σ²S²Γ. Over a short time, ΔΠ ≈ ΘΔt + ½Γ(ΔS)².",
+   "warmup": "Delta-neutral, Γ = −100, stock moves $1: gamma loss ≈ ½ × (−100) × 1 = −$50.",
+   "question": "A trader's book of options on one stock is worth Π = $50,000 and is delta-neutral. Its gamma is −1,500. S = $60, σ = 25%, r = 4%. (a) Use the BSM relation to find the book's theta per year and per day. (b) Find the stock move over one day at which the book breaks even, and compare it with a one-day standard deviation of the stock. (c) Estimate the book's one-day P&L if the stock moves $2. (d) A traded option has delta 0.62 and gamma 0.05. Make the book gamma-neutral and then delta-neutral.",
+   "hint": "Θ = rΠ − ½σ²S²Γ. Break-even: ΘΔt + ½Γ(ΔS)² = 0 with Δt = 1/365.",
+   "steps": [
+    "(a) ½σ²S²Γ = ½ × 0.0625 × 3,600 × (−1,500) = −168,750. Θ = 0.04 × 50,000 − (−168,750) = $170,750 a year ≈ $467.81 a day.",
+    "(b) 467.81 − 750(ΔS)² = 0 → ΔS = √(467.81/750) = $0.79.",
+    "One-day sd of the stock = 60 × 0.25/√365 = $0.785. The break-even move is about one daily standard deviation: the theta you earn is fair pay for the gamma risk.",
+    "(c) ΔΠ ≈ 467.81 + ½(−1,500)(2²) = 467.81 − 3,000 = −$2,532.",
+    "(d) Buy 1,500/0.05 = 30,000 options (gamma +1,500). They add delta 30,000 × 0.62 = 18,600, so sell 18,600 shares."
+   ],
+   "rubric": [
+    "2: theta from the relation",
+    "2: break-even move and comparison",
+    "2: P&L estimate",
+    "2: gamma then delta hedge, in that order"
+   ],
+   "reading": "Hull: The Greek letters (relationship between delta, theta and gamma; making a portfolio gamma-neutral)."
   }
  ]
 };

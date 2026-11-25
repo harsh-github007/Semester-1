@@ -28,9 +28,25 @@ table.mt{border-collapse:collapse;width:100%;font-size:15px}table.mt td,table.mt
 <h2>The five chapters</h2>
 <div class="chap-grid" id="chapters"></div>
 
+<section class="first-idea" id="sources"><h2>Where the midterm questions came from</h2>
+<p>Your midterm was not invented from scratch. Q4 (the $920 bond with a $940 forward) is a known textbook exercise that appears online word for word. It looks like it comes from <b>Luenberger, <i>Investment Science</i></b> (the forwards, futures and swaps chapter), and the Q5 swap with spot rates 7.0% to 8.8% has the same textbook-exercise shape. Q2 (the 200 × F index futures) circulates in online homework banks. So your professor reuses <b>textbook exercises and past problem sets</b>, sometimes with small changes. Expect the final to do the same with these two books:</p>
+<ul><li><b>Hull</b> end-of-chapter problems for chapters 11, 13, 14, 15 and 19 (the list below).</li>
+<li><b>Luenberger</b>'s options chapters: <i>Models of asset dynamics</i> (Wiener, Itô), <i>Basic options theory</i> (bounds, parity, lattices, early exercise) and <i>Additional options topics</i> (Black–Scholes, delta hedging). Luenberger is not in your course pack; borrow it from the library if you can.</li></ul>
+<p class="small">I matched the midterm against web search results and the Hull PDF in your pack. Q1 and Q3 were not found word for word anywhere.</p></section>
+
+<section class="first-idea" id="drill"><h2>Book problems to drill (Hull 8th edition in your pack)</h2>
+<p>These are the calculation problems most like exam questions. Problem numbers are from the 8th edition PDF in <a href="library.html">Course materials</a>; your course numbers the chapters one higher (19 for Greeks).</p>
+<div class="tablewrap"><table class="mt"><thead><tr><th>Your chapter</th><th>Hull 8e problems</th><th>What they train</th></tr></thead><tbody>
+<tr><td>11 Properties of options</td><td>10.7, 10.9–10.12, 10.14–10.17, 10.22, 10.23, 10.26, 10.27</td><td>Bounds, parity arbitrage, American bounds with dividends, convexity in K</td></tr>
+<tr><td>13 Binomial trees</td><td>12.1, 12.4–12.6, 12.9–12.15, 12.17, 12.19, 12.20</td><td>One- and two-step pricing, American puts, delta, options on currencies, futures and indices</td></tr>
+<tr><td>14 Wiener and Itô</td><td>13.3–13.5, 13.8, 13.10–13.18</td><td>Cash-position probabilities, Itô for S^n, forward prices, bond yields, two correlated stocks</td></tr>
+<tr><td>15 Black–Scholes–Merton</td><td>14.2, 14.4, 14.5, 14.7–14.9, 14.12–14.16, 14.21, 14.22, 14.26, 14.28–14.31</td><td>Lognormal ranges, BSM with dividends, Black's approximation, payoffs like S_T², exercise probability</td></tr>
+<tr><td>19 Greek letters</td><td>All of Chapter 18's numerical problems, especially the gamma-neutral and delta-hedging ones</td><td>Delta hedging, gamma/vega neutral, theta and the BSM relation, portfolio insurance</td></tr>
+</tbody></table></div>
+<p class="small">Hull's end-of-chapter answers are in his separate solutions manual, which is not in your pack. Check your numbers with the calculators in each lesson.</p></section>
 <section class="first-idea"><h2>Practice papers</h2>
-<p>Each paper has 5 questions, one per chapter, 8 points each, the same format as your midterm. Do <b>Paper A</b> first with the help on, then <b>Paper B</b> in exam mode with the 120-minute timer.</p>
-<div class="paper-switch"><a class="btn" href="derivatives-final-chapters.html?paper=A#papers" id="pA">Paper A</a><a class="btn" href="derivatives-final-chapters.html?paper=B#papers" id="pB">Paper B</a></div></section>
+<p>Each paper has 5 questions, one per chapter, 8 points each, the same format as your midterm. Do <b>Paper A</b> first with the help on, then <b>Paper B</b> in exam mode with the 120-minute timer. <b>Paper C</b> copies the style of the textbook exercises your midterm was built from (see below) and is the hardest: do it last, timed.</p>
+<div class="paper-switch"><a class="btn" href="derivatives-final-chapters.html?paper=A#papers" id="pA">Paper A</a><a class="btn" href="derivatives-final-chapters.html?paper=B#papers" id="pB">Paper B</a><a class="btn" href="derivatives-final-chapters.html?paper=C#papers" id="pC">Paper C: textbook-exercise style</a></div></section>
 
 <div id="papers"></div>
 <div class="actions"><label>Practice mode <select id="practice-mode" class="field"><option value="learn">Learn with warm-ups</option><option value="exam">Exam practice: hide help</option></select></label><button class="btn" id="timer-start">Start 120-minute practice</button><button class="btn" id="timer-pause" disabled>Pause timer</button><button class="btn" id="print">Print questions</button></div>
@@ -58,7 +74,7 @@ const CHAPTERS=[
   ['Shares needed to delta hedge a book of calls or puts','Rebalancing after a move (gamma) and its cost','Gamma- and vega-neutral with two traded options, then delta with stock','Sign of theta and gamma for long vs short options']]
 ];
 document.getElementById('chapters').innerHTML=CHAPTERS.map(([n,t,idea,ids,f,types])=>`<article class="chap"><span class="tag">${n}</span><h3>${t}</h3><p>${idea}</p><pre>${f}</pre><p><b>Question types</b></p><ul>${types.map(x=>`<li>${x}</li>`).join('')}</ul><p class="small">Lessons: ${ids.map(id=>`<a href='${lessonLink(id)}'>${RAW[id].title}</a>`).join(' · ')}</p></article>`).join('');
-const PAPER=new URLSearchParams(location.search).get('paper')==='B'?'B':'A';
+const PAPER=['A','B','C'].includes(new URLSearchParams(location.search).get('paper'))?new URLSearchParams(location.search).get('paper'):'A';
 document.getElementById('p'+PAPER).setAttribute('aria-current','page');
 document.getElementById('papers').innerHTML=`<h2>Paper ${PAPER}</h2>`;
 const PRACTICE_KEY='fsb-chapfinal-'+PAPER.toLowerCase();const PRACTICE=CHAPTER_FINAL[PAPER];
