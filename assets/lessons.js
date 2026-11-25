@@ -832,6 +832,62 @@ RAW.push(
    it.push([3,C(f.sx(0.05),f.sy(37.5),6,'fp')+T(f.sx(0.05)-8,f.sy(37.5)+18,'$37.50 at 5%','tp mono','text-anchor="end"')]);return it}}}
 );
 
+// Final-exam chapters added Nov 25 2026 (Hull Ch 11 and Ch 14). IDs 35 and 36 are stable.
+RAW.push(
+/* 35 */ {wk:'Final · Hull Ch 11',tag:'Derivatives',title:'Option bounds, early exercise and dividends',
+ one:'Before any model, plain no-arbitrage logic puts a <mark>floor and a ceiling</mark> on every option price. Break a bound and there is free money. The same logic tells you when exercising early is silly.',
+ plain:`<p>Hull Chapter 11 needs no model at all. Every result comes from one question: "if this price were different, could I lock in a profit with no risk?"</p>
+ <ul><li><b>Six things move an option price:</b> S<sub>0</sub>, K, T, σ, r and dividends D. Calls rise with S, σ, r and (American) T; fall with K and D. Puts are the mirror image for S, K, r and D.</li>
+ <li><b>Upper bounds:</b> a call can never cost more than the stock (c ≤ S<sub>0</sub>). A European put can never cost more than the PV of the strike (p ≤ Ke<sup>−rT</sup>).</li>
+ <li><b>Lower bounds:</b> c ≥ S<sub>0</sub> − Ke<sup>−rT</sup> and p ≥ Ke<sup>−rT</sup> − S<sub>0</sub> (and never below 0). With dividends, replace S<sub>0</sub> by S<sub>0</sub> − D, where D = PV of the dividends paid before expiry.</li>
+ <li><b>American call, no dividends:</b> never exercise early. Selling the call is always worth at least as much, because the call is worth more than S − K before expiry. So C = c.</li>
+ <li><b>American put:</b> early exercise can be optimal when the stock is deep in the money (you get K now and earn interest on it).</li>
+ <li><b>Dividends and calls:</b> the only time early exercise of an American call can make sense is just before an ex-dividend date, and only if D &gt; K(1 − e<sup>−r(t<sub>next</sub> − t)</sup>), the interest you would lose by paying K early.</li>
+ <li><b>American put-call relation:</b> S<sub>0</sub> − K ≤ C − P ≤ S<sub>0</sub> − Ke<sup>−rT</sup> (no dividends). With dividends: S<sub>0</sub> − D − K ≤ C − P ≤ S<sub>0</sub> − Ke<sup>−rT</sup>.</li></ul>
+ <p><b>How to answer an "arbitrage" question:</b> (1) compute the bound, (2) say which side is too cheap, (3) buy the cheap side and sell the expensive side, (4) show the cash flows today and at T, (5) state the profit is at least the gap grown at r.</p>`,
+ formula:'Call:  max(S0 − D − K·e^(−rT), 0) ≤ c ≤ S0\nPut:   max(K·e^(−rT) + D − S0, 0) ≤ p ≤ K·e^(−rT)\nAmerican, no dividend:  C = c,  S0 − K ≤ C − P ≤ S0 − K·e^(−rT)\nExercise call before a dividend only if  D > K·(1 − e^(−r·(t_next − t)))',
+ legend:'D = present value of dividends paid before expiry; t_next = next dividend date or expiry, whichever comes first.',
+ ex:{q:'S = $52, K = $50, r = 8%, T = 6 months. A $1.50 dividend is paid in 3 months. (a) Lower bound for a European call? (b) Could exercising an American call just before the dividend ever be optimal? (c) Lower bound for a European put?',
+  steps:['PV of dividend D = 1.50 × e^(−0.08 × 0.25) = <code>1.4703</code>; PV of strike = 50 × e^(−0.08 × 0.5) = <code>48.0395</code>','(a) c ≥ 52 − 1.4703 − 48.0395 = <code>2.4902</code>','(b) Interest lost by paying K early = 50 × (1 − e^(−0.08 × 0.25)) = <code>0.9901</code>','The dividend 1.50 is bigger than 0.99, so early exercise just before the dividend <b>can</b> be optimal (it is not guaranteed; a model decides).','(c) p ≥ 48.0395 + 1.4703 − 52 = −2.49, which is below zero, so the bound is just <code>0</code>'],
+  a:'(a) c ≥ $2.49 (b) Yes, it can be optimal because D > 0.99 (c) p ≥ 0'},
+ traps:['Using the dividend itself instead of its present value.','Forgetting the dividend enters the call bound with a minus sign and the put bound with a plus sign.','Saying "never exercise an American call early" when the stock pays dividends.','Using European put-call parity as an equality for American options; for American options you only get the two-sided inequality.'],
+ files:['Hull 8e, Chapter 10 (Properties of stock options; Chapter 11 in later editions)','Derivatives/04 Assignments and Solutions (Assignment 3)'],
+ calc:{inputs:[['s','Stock S0',52],['k','Strike K',50],['r','Rate r (%)',8],['t','Years T',0.5],['d','PV of dividends D',1.4703]],
+  run:v=>{const pk=v.k*Math.exp(-v.r/100*v.t);return `PV of strike = ${f4(pk)}<br>Call: <b>${f4(Math.max(v.s-v.d-pk,0))}</b> ≤ c ≤ ${f2(v.s)}<br>Put: <b>${f4(Math.max(pk+v.d-v.s,0))}</b> ≤ p ≤ ${f4(pk)}<br>American C − P lies between ${f4(v.s-v.d-v.k)} and ${f4(v.s-pk)}`}},
+ sketch:{caps:['A call can never be worth more than the stock itself: the ceiling c = S.','The floor: c ≥ S − Ke^(−rT). It is a hockey stick shifted left of K, because you pay K only later.','The real call price (Black-Scholes, dashed) always sits between floor and ceiling.','If a quote falls below the floor, buy the call and short the stock: that is the arbitrage.'],
+  draw:()=>{const f=F(80,30,470,240,0,80,0,80),pk=50*Math.exp(-0.04);let it=[[0,axes(f,'stock price S','call value',[20,40,60,80],[0,20,40,60,80],v=>'$'+v)+P(fp(f,s=>s,0,80,2),'sb')+T(f.sx(66),f.sy(74),'ceiling: c = S','tb mono','text-anchor="end"')]];
+   it.push([1,P(fp(f,s=>Math.max(s-pk,0),0,80,80),'sp')+T(f.sx(79),f.sy(3),'floor: S − Ke^(−rT)','tp mono','text-anchor="end"')+T(f.sx(pk),f.y+f.h+38,'Ke^(−rT) = 48.04','tm','text-anchor="middle"')]);
+   it.push([2,P(fp(f,s=>s<1?0:bsm(s,50,0.08,0.6,1).c,0.5,80),'sg dash')+T(f.sx(36),f.sy(16),'actual call price','tg mono','text-anchor="end"')]);
+   it.push([3,C(f.sx(72),f.sy(13),7,'fp')+AR(f.sx(22),f.sy(52),f.sx(70),f.sy(15),'sp')+T(f.sx(2),f.sy(66),'quote below floor:','tp mono')+T(f.sx(2),f.sy(58),'buy call, short stock','tp mono')]);return it}}},
+
+/* 36 */ {wk:'Final · Hull Ch 14',tag:'Derivatives',title:'Wiener processes and Itô\'s lemma',
+ one:'A stock price wiggles randomly. A <mark>Wiener process</mark> is the maths of that wiggle, and <mark>Itô\'s lemma</mark> tells you how any function of the stock (like ln S, S², a forward price) wiggles too.',
+ plain:`<p>Think of a drunk walker. Each tiny step is random, the steps do not remember the past, and the spread of where they end up grows with the <b>square root</b> of time, not with time.</p>
+ <ul><li><b>Wiener process z:</b> Δz = ε√Δt with ε ~ N(0,1). Changes in different periods are independent. Over time T: z(T) − z(0) ~ N(0, T), so the standard deviation is √T.</li>
+ <li><b>Generalized Wiener process:</b> dx = a·dt + b·dz. Drift a per year, variance b² per year. After time T: x(T) − x(0) ~ N(aT, b²T).</li>
+ <li><b>Itô process:</b> the same, but a and b can depend on x and t: dx = a(x,t)dt + b(x,t)dz.</li>
+ <li><b>Stock model (geometric Brownian motion):</b> dS = μS·dt + σS·dz. The <i>percentage</i> return has drift μ and volatility σ.</li>
+ <li><b>Itô's lemma:</b> for any G(S,t), dG = (∂G/∂S·μS + ∂G/∂t + ½·∂²G/∂S²·σ²S²)dt + ∂G/∂S·σS·dz. The extra ½·G<sub>SS</sub>·σ²S² term is what ordinary calculus misses: it appears because (dz)² behaves like dt.</li>
+ <li><b>Most-tested result:</b> G = ln S gives dG = (μ − σ²/2)dt + σ·dz. So ln S<sub>T</sub> is normal: ln S<sub>T</sub> ~ N(ln S<sub>0</sub> + (μ − σ²/2)T, σ²T). S<sub>T</sub> is lognormal, with E[S<sub>T</sub>] = S<sub>0</sub>e<sup>μT</sup>.</li>
+ <li><b>Recipe for any G:</b> write G<sub>S</sub>, G<sub>SS</sub>, G<sub>t</sub>; plug into the formula; simplify; say whether G is itself a geometric Brownian motion (drift and vol both proportional to G).</li></ul>`,
+ formula:'Wiener: Δz = ε·√Δt,   z(T) − z(0) ~ N(0, T)\nGeneralized: dx = a·dt + b·dz  →  x(T) − x(0) ~ N(aT, b²T)\nItô: dG = (G_S·μS + G_t + ½·G_SS·σ²S²)·dt + G_S·σS·dz\nln S:  d(ln S) = (μ − σ²/2)dt + σ·dz\nln S_T ~ N( ln S0 + (μ − σ²/2)T , σ²T ),   E[S_T] = S0·e^(μT)\nS²:  d(S²) = (2μ + σ²)S²dt + 2σS²dz     Forward F = S·e^(r(T−t)):  dF = (μ − r)F dt + σF dz',
+ legend:'G_S, G_SS = first and second derivatives of G with respect to S; G_t = derivative with respect to time; ε = standard normal draw.',
+ ex:{q:'A stock is $50 with μ = 12% and σ = 20% a year. (a) Find the distribution of ln S after 1 year and a 95% range for S_1. (b) What is E[S_1]? (c) Use Itô to find the process for G = S².',
+  steps:['ln S0 = ln 50 = 3.9120. Drift of ln S = μ − σ²/2 = 0.12 − 0.02 = <code>0.10</code>','ln S_1 ~ N(3.9120 + 0.10, 0.20²) = N(<code>4.0120</code>, sd <code>0.20</code>)','95% range for ln S_1: 4.0120 ± 1.96 × 0.20 → S_1 between e^3.6200 = <code>$37.34</code> and e^4.4040 = <code>$81.78</code>','(b) E[S_1] = 50 × e^0.12 = <code>$56.37</code> (bigger than e^4.012 = $55.26, because the lognormal is skewed right)','(c) G = S²: G_S = 2S, G_SS = 2, G_t = 0 → dG = (2S·μS + ½·2·σ²S²)dt + 2S·σS dz = <code>(2μ + σ²)G dt + 2σG dz</code> = 0.28G dt + 0.40G dz'],
+  a:'ln S_1 ~ N(4.012, 0.20²); S_1 in $37.34 to $81.78 with 95% probability; E[S_1] = $56.37; d(S²) = 0.28·G dt + 0.40·G dz'},
+ traps:['Using σ·T instead of σ·√T for the standard deviation.','Forgetting the −σ²/2 in the drift of ln S (that is the whole point of Itô).','Mixing up variance and standard deviation: "variance rate 9" means b = 3.','Building the 95% range on S directly with ±1.96σ. Build it on ln S, then take e^ of both ends.'],
+ files:['Hull 8e, Chapter 13 (Wiener processes and Itô\'s lemma; Chapter 14 in later editions)','Valuation/03 Lectures/FRE6103_LECTURE_06_Lecture_5_Stochastic_Processes.pdf'],
+ calc:{inputs:[['s','Stock S0',50],['m','Expected return μ (%)',12],['v','Volatility σ (%)',20],['t','Years T',1],['k','Level K for P(S_T > K)',60]],
+  run:v=>{const mu=v.m/100,sg=v.v/100,mean=Math.log(v.s)+(mu-sg*sg/2)*v.t,sd=sg*Math.sqrt(v.t),z=(mean-Math.log(v.k))/sd;return `ln S_T ~ N(<b>${f4(mean)}</b>, sd <b>${f4(sd)}</b>)<br>95% range for S_T: <b>${f2(Math.exp(mean-1.96*sd))}</b> to <b>${f2(Math.exp(mean+1.96*sd))}</b><br>E[S_T] = ${f2(v.s*Math.exp(mu*v.t))}<br>P(S_T > ${v.k}) = N(${f4(z)}) = <b>${f4(Nc(z))}</b>`}},
+ sketch:{caps:['A Wiener path: each step is a random ±, with no memory of the past.','The spread of possible values grows like √t: the fan widens fast at first, then more slowly.','Add drift: dx = a dt + b dz is a straight trend line plus the same wiggle.','For a stock, ln S follows that straight-trend-plus-wiggle with drift μ − σ²/2. That is Itô\'s lemma in one picture.'],
+  draw:()=>{const f=F(80,30,470,240,0,1,-2.6,3.4),r=rng(7);let d='M'+f.sx(0)+','+f.sy(0),z=0;for(let i=1;i<=120;i++){z+=gauss(r)*Math.sqrt(1/120);d+='L'+f.sx(i/120).toFixed(1)+','+f.sy(z).toFixed(1)}
+   let it=[[0,axes(f,'time (years)','z(t)',[0,0.5,1],[-2,0,2])+L(f.x,f.sy(0),f.x+f.w,f.sy(0),'sm')+P(d,'sb')]];
+   it.push([1,P(fp(f,t=>1.96*Math.sqrt(t),0,1),'sg dash')+P(fp(f,t=>-1.96*Math.sqrt(t),0,1),'sg dash')+T(f.sx(1)-4,f.sy(1.96)-8,'±1.96√t','tg mono','text-anchor="end"')]);
+   let d2='M'+f.sx(0)+','+f.sy(0),x=0;const r2=rng(11);for(let i=1;i<=120;i++){x+=1.2/120+0.6*gauss(r2)*Math.sqrt(1/120);d2+='L'+f.sx(i/120).toFixed(1)+','+f.sy(x).toFixed(1)}
+   it.push([2,P(fp(f,t=>1.2*t,0,1,2),'sp dash')+P(d2,'sp')+T(f.sx(0.3),f.sy(0.36)-16,'trend a·t','tp mono')]);
+   it.push([3,R(96,28,256,56,'fs')+T(110,50,'d(ln S) = (μ − σ²/2)dt + σ dz','mono')+T(110,74,'so ln S_T is normal','tm')]);return it}}}
+);
+
 
 RAW.forEach((c,i)=>c.id=i);
 
@@ -853,7 +909,9 @@ const CALC_RULES={
  26:v=>Number.isInteger(v.n)&&v.n>=0&&v.d>=0&&v.d<=1&&v.g>=0||'Use a nonnegative whole number of option units, call delta from 0 to 1 and nonnegative gamma.',
  29:v=>v.c>=0&&v.rwa>0&&v.ex>0&&v.h>=0&&v.o>0||'Capital and liquid assets cannot be negative; RWA, exposure and outflows must be positive.',
  32:v=>v.a>=0&&v.r>0&&v.r2>0||'Use a nonnegative amount and positive exchange rates.',
- 34:v=>v.p>0&&v.e>0&&v.d>=0&&v.r>v.g||'This comparison needs positive price/EPS, a nonnegative dividend, and required return above growth.'
+ 34:v=>v.p>0&&v.e>0&&v.d>=0&&v.r>v.g||'This comparison needs positive price/EPS, a nonnegative dividend, and required return above growth.',
+ 35:v=>v.s>0&&v.k>=0&&v.t>=0&&v.d>=0&&v.d<v.s||'Use a positive stock price, nonnegative strike/time, and a dividend PV between 0 and the stock price.',
+ 36:v=>v.s>0&&v.k>0&&v.v>0&&v.t>0||'Stock price, level K, volatility and time must all be positive.'
 };
 // Zero-rate loans have a well-defined payment even though the ratio formula is 0/0.
 const originalLoan=RAW[2].calc.run;

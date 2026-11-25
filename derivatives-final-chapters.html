@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Derivatives final chapters · Finals Sketchbook</title><link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/study.css"><link rel="icon" href="icons/icon-192.png">
+<style>
+.chap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;margin:18px 0}
+.chap{background:var(--sheet);border:2px solid var(--ink);border-radius:14px;padding:18px 20px}
+.chap h3{margin:4px 0 8px}.chap .tag{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.chap pre{white-space:pre-wrap;font-family:var(--mono);font-size:13px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px;margin:8px 0}
+.chap ul{padding-left:18px;margin:6px 0}.chap li{margin-bottom:4px}
+.paper-switch{display:flex;gap:10px;flex-wrap:wrap}.paper-switch a[aria-current]{background:var(--ink);color:var(--sheet)}
+table.mt{border-collapse:collapse;width:100%;font-size:15px}table.mt td,table.mt th{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+.tablewrap{overflow-x:auto}
+</style></head><body><a class="skip" href="#main">Skip to content</a><header class="appbar"><a class="wordmark" href="index.html">Finals Sketchbook</a><nav aria-label="Main navigation"><a href="derivatives.html">Derivatives lessons</a><a href="derivatives-practice.html">Midterm practice</a><label class="theme-label">Appearance <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></nav></header>
+<main id="main" class="home">
+<h1>Derivatives final: five chapters.</h1>
+<p>Your final covers Hull Chapters <b>11, 13, 14, 15 and 19</b>. This page gives you each chapter in plain words, the formulas you must know by heart, the question types to expect, and two full practice papers pitched <b>harder than the October 17 midterm</b>.</p>
+<p class="small">Chapter numbers follow your course's Hull edition. In the Hull 8th edition PDF in your course pack the same chapters are 10, 12, 13, 14 and 18. These papers are original practice, not the real exam.</p>
+
+<section class="first-idea"><h2>How hard was the midterm, and what to expect</h2>
+<p>The midterm had <b>5 questions × 8 points = 40 points in 2 hours</b>, with no clarifications allowed. No question was a one-step plug-in. Each one had a twist:</p>
+<div class="tablewrap"><table class="mt"><thead><tr><th>Midterm question</th><th>The twist</th><th>Same twist on the final looks like</th></tr></thead><tbody>
+<tr><td>Q1 forward with dividends</td><td>12 dividends that grow 1% each time</td><td>Bounds or BSM with several dividends; Black's approximation</td></tr>
+<tr><td>Q2 index futures loss</td><td>Solve backwards for the unknown price S</td><td>Solve for σ, a strike, a starting cash level, or a hedge size</td></tr>
+<tr><td>Q3 margin account</td><td>Find the <i>largest</i> X that avoids a margin call</td><td>"When is early exercise optimal?" and "is there an arbitrage?"</td></tr>
+<tr><td>Q4 bond forward</td><td>Coupons inside the contract, semiannual rates</td><td>Trees with u, d from σ, options on futures or currencies</td></tr>
+<tr><td>Q5 swap rate</td><td>Six rates, one equation to build yourself</td><td>Two Greeks equations solved together (gamma + vega neutral)</td></tr>
+</tbody></table></div>
+<p><b>Expect the final to be harder</b>: more parts per question, mixed chapters (for example a tree answer checked against Black-Scholes, or a Greek computed from BSM), and at least one "explain why" line. Write your assumptions down, since nobody will clarify during the exam.</p></section>
+
+<h2>The five chapters</h2>
+<div class="chap-grid" id="chapters"></div>
+
+<section class="first-idea"><h2>Practice papers</h2>
+<p>Each paper has 5 questions, one per chapter, 8 points each, the same format as your midterm. Do <b>Paper A</b> first with the help on, then <b>Paper B</b> in exam mode with the 120-minute timer.</p>
+<div class="paper-switch"><a class="btn" href="derivatives-final-chapters.html?paper=A#papers" id="pA">Paper A</a><a class="btn" href="derivatives-final-chapters.html?paper=B#papers" id="pB">Paper B</a></div></section>
+
+<div id="papers"></div>
+<div class="actions"><label>Practice mode <select id="practice-mode" class="field"><option value="learn">Learn with warm-ups</option><option value="exam">Exam practice: hide help</option></select></label><button class="btn" id="timer-start">Start 120-minute practice</button><button class="btn" id="timer-pause" disabled>Pause timer</button><button class="btn" id="print">Print questions</button></div>
+<p class="status" id="timer-status" role="status">Untimed practice. You can work at your own pace.</p>
+<nav aria-label="Practice questions" id="question-links" class="actions"></nav><div id="practice-questions"></div>
+<section class="first-idea"><h2>Your self-assessment</h2><p id="practice-total" role="status"></p><p>For each missed step, write what went wrong and redo the problem with one input changed. Answers and marks are saved on this browser only.</p></section>
+</main><footer class="appfooter"><span id="connection"></span><span id="save-status" role="status">Keep your instructor's instructions as the authority on final scope.</span></footer>
+<script src="assets/config.js"></script><script src="assets/common.js"></script><script src="assets/lessons.js"></script><script src="assets/derivatives-chapters-data.js"></script>
+<script>
+const CHAPTERS=[
+ ['Chapter 11','Properties of stock options','No model needed: no-arbitrage gives floors, ceilings, put-call parity and early-exercise rules.',[35,21],
+  'c ≤ S0      p ≤ K·e^(−rT)\nc ≥ max(S0 − D − K·e^(−rT), 0)\np ≥ max(K·e^(−rT) + D − S0, 0)\nc + K·e^(−rT) + D = p + S0\nS0 − D − K ≤ C − P ≤ S0 − K·e^(−rT)',
+  ['Check a quote against a bound and build the arbitrage','Find a put from a call with parity (European) or bounds (American)','Decide if early exercise can be optimal (dividend vs interest on K)','Direction table: what happens to c and p when S, K, T, σ, r, D rise']],
+ ['Chapter 13','Binomial trees','Copy the option with stock and cash, or price with risk-neutral p. Work backwards.',[15],
+  'u = e^(σ√Δt), d = 1/u\np = (a − d)/(u − d)\na = e^(rΔt) stock, e^((r−q)Δt) index,\n    e^((r−rf)Δt) currency, 1 futures\nf = e^(−rΔt)[p·fu + (1−p)·fd]\nΔ = (fu − fd)/(Su − Sd)',
+  ['One-step price by replication (Δ shares + borrowing)','Two- or three-step European and American puts','Early-exercise premium and delta at each node','Options on indices, currencies and futures (change a)']],
+ ['Chapter 14','Wiener processes and Itô\'s lemma','Randomness grows with √t. Itô turns the stock\'s process into the process for any function of it.',[36,11],
+  'Δz = ε√Δt,  z(T) − z(0) ~ N(0, T)\ndx = a dt + b dz → N(aT, b²T)\ndG = (G_S·μS + G_t + ½G_SS·σ²S²)dt\n     + G_S·σS dz\nd ln S = (μ − σ²/2)dt + σ dz',
+  ['Probability a generalized Wiener variable falls below a level','Distribution of ln S_T, 95% range for S_T, E[S_T]','Itô for S², 1/S, ln S, S·e^(r(T−t)) (forward price)','Explain why the −σ²/2 appears']],
+ ['Chapter 15','The Black-Scholes-Merton model','Five inputs give a European price. μ never appears because the option can be hedged.',[16],
+  'c = S·N(d1) − K·e^(−rT)·N(d2)\np = K·e^(−rT)·N(−d2) − S·N(−d1)\nd1 = [ln(S/K) + (r + σ²/2)T]/(σ√T)\nd2 = d1 − σ√T\nDividends: use S − PV(D)\nP(exercise, risk-neutral) = N(d2)',
+  ['Price a call and put, check with parity','Dividend-adjusted pricing and Black\'s approximation','Lognormal confidence interval and expected return of S','Volatility from historical returns; meaning of implied volatility']],
+ ['Chapter 19','The Greek letters','Delta, gamma, theta, vega and rho measure how the price moves when one input moves. Hedging sets them to zero.',[26,16],
+  'Δ call = N(d1),  Δ put = N(d1) − 1\nΓ = φ(d1)/(Sσ√T)   (same call/put)\nVega = S√T·φ(d1)\nΘ + rSΔ + ½σ²S²Γ = rΠ\nΔΠ ≈ ΔΔS + ½Γ(ΔS)² + ΘΔt',
+  ['Shares needed to delta hedge a book of calls or puts','Rebalancing after a move (gamma) and its cost','Gamma- and vega-neutral with two traded options, then delta with stock','Sign of theta and gamma for long vs short options']]
+];
+document.getElementById('chapters').innerHTML=CHAPTERS.map(([n,t,idea,ids,f,types])=>`<article class="chap"><span class="tag">${n}</span><h3>${t}</h3><p>${idea}</p><pre>${f}</pre><p><b>Question types</b></p><ul>${types.map(x=>`<li>${x}</li>`).join('')}</ul><p class="small">Lessons: ${ids.map(id=>`<a href='${lessonLink(id)}'>${RAW[id].title}</a>`).join(' · ')}</p></article>`).join('');
+const PAPER=new URLSearchParams(location.search).get('paper')==='B'?'B':'A';
+document.getElementById('p'+PAPER).setAttribute('aria-current','page');
+document.getElementById('papers').innerHTML=`<h2>Paper ${PAPER}</h2>`;
+const PRACTICE_KEY='fsb-chapfinal-'+PAPER.toLowerCase();const PRACTICE=CHAPTER_FINAL[PAPER];
+</script><script src="assets/practice.js"></script></body></html>

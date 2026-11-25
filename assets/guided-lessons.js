@@ -35,7 +35,9 @@ const LESSON_CONTEXT=[
  ['Read an economic release against expectations','A headline can improve from last month yet disappoint the market. Compare the actual release with both the previous number and the forecast.'],
  ['Read a currency quote without reversing the trade','Always say the units out loud: how many units of the quote currency buy one unit of the base currency? Then translate a quote change into the cost of your payment.'],
  ['Connect fixed payments with changing market yields','A bond’s promised coupon does not change just because the market asks for a different return. Its price adjusts, and yield-curve comparisons must use consistent dates.'],
- ['Connect a share price with the business claim','A share is a residual ownership claim. Multiples compare price with accounting or cash-flow quantities, so check the denominator and future expectations before drawing a conclusion.']
+ ['Connect a share price with the business claim','A share is a residual ownership claim. Multiples compare price with accounting or cash-flow quantities, so check the denominator and future expectations before drawing a conclusion.'],
+ ['Find the cheapest and dearest an option could ever be','Before using any model, check the no-arbitrage floor and ceiling. Dividends lower call values and raise put values, and they are the only reason to exercise an American call early.'],
+ ['Describe randomness that grows with the square root of time','Split a price change into a steady drift and a random shock. Itô\'s lemma converts that description for the stock into one for any function of the stock, adding a correction term ordinary calculus misses.']
 ];
 function lessonText(value){return String(value).replace(/<br\s*\/?>|<\/(?:p|li)>/gi,'\n').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&nbsp;/g,' ').replace(/&#39;/g,"'").trim();}
 function buildGuidedLesson(c,b,beginner=BEGINNER){

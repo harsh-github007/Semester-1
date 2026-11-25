@@ -2,22 +2,22 @@ const {test}=require('node:test');const assert=require('node:assert/strict');con
 const context=vm.createContext({console});
 for(const file of ['config','lessons','beginner','practice-data'])vm.runInContext(fs.readFileSync(`assets/${file}.js`,'utf8'),context);
 const run=code=>vm.runInContext(code,context);
-test('all 35 unique lessons have a complete beginner path and an answer',()=>{
- assert.equal(run('RAW.length'),35);assert.equal(run('BEGINNER.length'),35);
- assert.equal(run('new Set(CONFIGS.all.SUBJECTS.flatMap(s=>s[1])).size'),35);
+test('all 37 unique lessons have a complete beginner path and an answer',()=>{
+ assert.equal(run('RAW.length'),37);assert.equal(run('BEGINNER.length'),37);
+ assert.equal(run('new Set(CONFIGS.all.SUBJECTS.flatMap(s=>s[1])).size'),37);
  assert.equal(run('BEGINNER.every(b=>b.story&&b.words&&b.why&&b.options[b.answer]&&b.prerequisites.every(id=>RAW[id]))'),true);
 });
 test('every subject uses valid stable IDs without internal duplicates',()=>{
  assert.equal(run('Object.values(CONFIGS).every(cfg=>{const ids=cfg.SUBJECTS.flatMap(s=>s[1]);return ids.every(id=>RAW[id])&&new Set(ids).size===ids.length;})'),true);
 });
 test('all sketch steps render valid finite geometry',()=>{
- for(let id=0;id<35;id++){
+ for(let id=0;id<37;id++){
   const items=run(`RAW[${id}].sketch.draw()`);assert.ok(items.length>0,`lesson ${id}`);
   for(const [,svg]of items){assert.ok(!/NaN|Infinity|undefined/.test(svg),`invalid sketch in lesson ${id}`);}
  }
 });
 test('calculator defaults yield finite answers',()=>{
- for(let id=0;id<35;id++)if(run(`!!RAW[${id}].calc`)){
+ for(let id=0;id<37;id++)if(run(`!!RAW[${id}].calc`)){
   const output=run(`RAW[${id}].calc.run(Object.fromEntries(RAW[${id}].calc.inputs.map(([k,l,v])=>[k,v])))`);
   assert.ok(!/NaN|Infinity|undefined/.test(output),`calculator ${id}: ${output}`);
  }

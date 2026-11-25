@@ -3,7 +3,7 @@ const context=vm.createContext({console});
 for(const file of ['config','lessons','videos'])vm.runInContext(fs.readFileSync(`assets/${file}.js`,'utf8'),context);
 const run=code=>vm.runInContext(code,context);
 test('every class has three videos whose scenes match their captions',()=>{
- for(let id=0;id<35;id++){
+ for(let id=0;id<37;id++){
   const vids=run(`lessonVideos(RAW[${id}]).map(v=>({name:v.name,caps:v.caps,items:v.draw()}))`);
   assert.equal(vids.length,3,`lesson ${id}`);
   for(const v of vids){
