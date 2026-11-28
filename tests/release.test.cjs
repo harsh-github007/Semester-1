@@ -30,7 +30,7 @@ test('resource navigation stops the old lesson before changing its index',()=>{
  ctx.dom=dom;vm.runInContext("let cur=0,step=0,playing=false;const CLASSES=[{sketch:{caps:['example']}}];const capsOf=()=>CLASSES[cur].sketch.caps;const $=()=>dom();const stepMs=()=>1000;const fmtT=()=>'';"+functions,ctx);assert.doesNotThrow(()=>vm.runInContext('showWatch()',ctx));assert.match(ctx.sheet.innerHTML,/Watch and learn/);
 });
 test('backups preserve both mock papers and BMC quiz and reject invalid marks',()=>{
- const src=fs.readFileSync('assets/home.js','utf8');const ctx=vm.createContext({RAW:Array(35).fill({})});vm.runInContext(src.match(/const backupKeys=\[[^;]+;/)[0]+src.slice(src.indexOf('function validateBackup')),ctx);
+ const src=fs.readFileSync('assets/home.js','utf8');const ctx=vm.createContext({RAW:Array(37).fill({})});vm.runInContext(src.match(/const backupKeys=\[[^;]+;/)[0]+src.slice(src.indexOf('function validateBackup')),ctx);
  const data=vm.runInContext("validateBackup({'fsb-final-valuation':{0:{text:'working',mark:12}},'fsb-final-derivatives':{5:{mark:14}},'fsb-bmc-quiz':{'3-7':2}})",ctx);assert.equal(data['fsb-final-valuation'][0].text,'working');assert.equal(data['fsb-final-derivatives'][5].mark,14);assert.equal(data['fsb-bmc-quiz']['3-7'],2);
  assert.throws(()=>vm.runInContext("validateBackup({'fsb-final-valuation':{0:{mark:13}}})",ctx));assert.throws(()=>vm.runInContext("validateBackup({'fsb-bmc-quiz':{'0-8':1}})",ctx));
 });

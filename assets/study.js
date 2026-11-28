@@ -124,7 +124,7 @@ function practiceHTML(c){const b=BEGINNER[c.id];return `<section class="quick-ch
 function bindPractice(c){
  const reading=bookReading(c.id);
  sheet.querySelector('.files').insertAdjacentHTML('beforeend',`<h3 style="margin-top:20px">Book companion</h3><p>${reading.text}</p><a href="library.html?q=${encodeURIComponent(reading.query)}">Find this book</a>`);
- if(c.subj==='Derivatives')sheet.querySelector('.files').insertAdjacentHTML('beforeend','<p><a href="derivatives-practice.html">Prepare with your actual midterm paper</a> · <a href="syllabus.html#derivatives">See syllabus coverage</a></p>');
+ if(c.subj==='Derivatives')sheet.querySelector('.files').insertAdjacentHTML('beforeend','<p><a href="derivatives-final-chapters.html">Final exam chapters and harder practice papers</a> · <a href="derivatives-practice.html">Prepare with your actual midterm paper</a> · <a href="syllabus.html#derivatives">See syllabus coverage</a></p>');
  if(c.subj==='Valuation')sheet.querySelector('.files').insertAdjacentHTML('beforeend','<p><a href="practice.html">Build up to the supplied midterm’s question style</a></p>');
 
  document.getElementById('check-answer').onclick=()=>{const answer=sheet.querySelector('[name="quick-answer"]:checked');const feedback=document.getElementById('feedback');if(!answer){feedback.textContent='Choose an answer first. It is okay to make a guess.';return;}const correct=+answer.value===BEGINNER[c.id].answer;feedback.textContent=(correct?'That’s right. ':'Not quite — let’s work through it. ')+BEGINNER[c.id].why;feedback.dataset.correct=correct;const review=Store.object('fsb-review');review[c.id]={correct,at:Date.now()};Store.write('fsb-review',review);};
