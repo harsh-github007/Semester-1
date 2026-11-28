@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Valuation makeup midterm prep · Finals Sketchbook</title><link rel="stylesheet" href="assets/base.css"><link rel="stylesheet" href="assets/study.css"><link rel="icon" href="icons/icon-192.png">
+<style>
+.plan-day{border-bottom:1px solid var(--line);padding:4px 0}.plan-day summary{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline;color:var(--ink)}.plan-day.today{background:var(--paper);border-radius:8px;padding:4px 12px}.plan-date{color:var(--blue);font-size:14px;font-weight:700}.plan-count{margin-left:auto;font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums}.tag-timed{font-size:12px;border:1px solid var(--blue);color:var(--blue);border-radius:999px;padding:1px 8px}.plan-tasks{list-style:none;padding:0;margin:8px 0}.plan-tasks label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}.plan-tasks input{width:20px;height:20px;flex-shrink:0;margin-top:3px;accent-color:var(--blue)}.makeup-set{margin:48px 0}.makeup-set>h2{font-size:30px}.makeup-problem{margin:20px 0}.makeup-problem h3{font-size:22px;margin:8px 0}.makeup-problem>p{max-width:72ch}.makeup-problem .actions{align-items:center}.makeup-problem .status{margin:0}.mark-row{border-top:1px solid var(--line);padding-top:12px}.scope{display:grid;grid-template-columns:1fr 1fr;gap:24px}.scope ul{padding-left:20px}.scope li{margin:6px 0}@media(max-width:640px){.scope{grid-template-columns:1fr}.makeup-set>h2{font-size:24px}}@media print{.mark-row,[data-timer],[data-mock]{display:none!important}}
+</style></head><body><a class="skip" href="#main">Skip to the plan</a><header class="appbar"><a class="wordmark" href="index.html">Finals Sketchbook</a><nav aria-label="Main navigation"><a href="valuation.html">Valuation lessons</a><a href="practice.html">Midterm-style practice</a><a href="library.html?q=EXAM_02">Cheat sheet</a><label class="theme-label">Appearance <select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></nav></header>
+<main id="main" class="home">
+<h1>Valuation makeup midterm: 13-day plan.</h1>
+<p>Nov 26 to Dec 8. Weeks 1–6 only, about 85% problems, timed from Day 5 at 10–12 minutes a question, and two full 1-hour mocks on Dec 3 and Dec 6.</p>
+<p id="where" class="status" role="status"></p>
+<section class="sheet" style="padding:24px;margin:24px 0"><h2>What is in and what is out</h2>
+<div class="scope"><div><h3>Study these (pre-futures)</h3><ul id="scope-in"></ul></div><div><h3>Cut completely</h3><ul id="scope-out"></ul></div></div>
+<p class="small">Each day is about 3 hours: roughly 20–30 minutes of video or recall, and the rest problems. The exam is 1 hour, so the per-question timers are set to fit 5–6 questions in 60 minutes. Bring a calculator with no internet; the original paper came with the two-page cheat sheet, linked above. Confirm the makeup exam’s rules with your instructor.</p></section>
+<h2>Day by day</h2>
+<div id="plan"></div>
+<section class="first-idea"><h2>Your progress on problems</h2><div id="summary" role="status"></div></section>
+<h2>Problem sets and mocks</h2>
+<p>Every problem has a timer, a hint, a worked solution and a one-tap self-mark. Use “Exam mode” to hide hints and solutions for the set problems. Mock solutions stay hidden until you tick the box.</p>
+<div class="actions"><label>Mode <select id="practice-mode" class="field"><option value="learn">Learn: hints and solutions visible</option><option value="exam">Exam mode: hide help</option></select></label><button class="btn" id="print">Print</button></div>
+<nav aria-label="Problem sets" id="set-links" class="actions"></nav>
+<div id="sets"></div>
+<h2 style="margin-top:56px">The two mocks</h2>
+<div id="mocks"></div>
+<p class="small">Problems are original variations on your course materials (lectures, Valuation Principles chapters, VFE Ch 3–4, the 2025A midterm), with answers checked numerically. Mock 2 reuses assigned-reading exercises. This is practice, not an official exam.</p>
+</main><footer class="appfooter"><span id="connection"></span><span id="save-status" role="status">Your ticks and marks are saved on this browser.</span></footer>
+<script src="assets/config.js"></script><script src="assets/common.js"></script><script src="assets/lessons.js"></script><script src="assets/makeup-data.js"></script>
+<script>document.getElementById('scope-in').innerHTML=MAKEUP.exam.scope.map(s=>'<li>'+escapeHTML(s)+'</li>').join('');document.getElementById('scope-out').innerHTML=MAKEUP.exam.cut.map(s=>'<li>'+escapeHTML(s)+'</li>').join('');</script>
+<script src="assets/makeup.js"></script></body></html>
